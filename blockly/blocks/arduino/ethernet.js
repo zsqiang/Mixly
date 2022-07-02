@@ -625,7 +625,7 @@ Blockly.Blocks.WIFI_smartConfig = {
 Blockly.Blocks.WIFI_ap_or_sta= {
   init: function() { 
     this.appendDummyInput()  
-    .appendField(new Blockly.FieldImage("../../media/blynk/wifi_udp.PNG", 25, 25, "*"))
+    .appendField(new Blockly.FieldImage("../../media/blynk/wifi_udp.PNG", 20, 20, "*"))
     .appendField(Blockly.MIXLY_SETUP+" UDP WIFI");
     this.appendDummyInput()  
     .appendField(Blockly.MIXLY_MICROBIT_PY_STORAGE_MODE+":")

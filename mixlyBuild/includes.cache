@@ -2,15 +2,55 @@
   {
     "Sourcefile": null,
     "Include": "",
-    "Includepath": "D:\\下载\\Mixly-master\\arduino\\portable\\packages\\esp32\\hardware\\esp32\\1.0.6\\cores\\esp32"
+    "Includepath": "D:\\下载\\Mixly-master\\arduino\\portable\\packages\\arduino\\hardware\\avr\\1.8.1\\cores\\arduino"
   },
   {
     "Sourcefile": null,
     "Include": "",
-    "Includepath": "D:\\下载\\Mixly-master\\arduino\\portable\\packages\\esp32\\hardware\\esp32\\1.0.6\\variants\\esp32"
+    "Includepath": "D:\\下载\\Mixly-master\\arduino\\portable\\packages\\arduino\\hardware\\avr\\1.8.1\\variants\\eightanaloginputs"
   },
   {
     "Sourcefile": "D:\\下载\\Mixly-master\\mixlyBuild\\sketch\\testArduino.ino.cpp",
+    "Include": "Servo.h",
+    "Includepath": "D:\\下载\\Mixly-master\\arduino\\portable\\sketchbook\\libraries\\Servo\\src"
+  },
+  {
+    "Sourcefile": "D:\\下载\\Mixly-master\\mixlyBuild\\sketch\\testArduino.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\下载\\Mixly-master\\arduino\\portable\\sketchbook\\libraries\\Servo\\src\\avr\\Servo.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\下载\\Mixly-master\\arduino\\portable\\sketchbook\\libraries\\Servo\\src\\mbed\\Servo.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\下载\\Mixly-master\\arduino\\portable\\sketchbook\\libraries\\Servo\\src\\megaavr\\Servo.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\下载\\Mixly-master\\arduino\\portable\\sketchbook\\libraries\\Servo\\src\\nrf52\\Servo.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\下载\\Mixly-master\\arduino\\portable\\sketchbook\\libraries\\Servo\\src\\sam\\Servo.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\下载\\Mixly-master\\arduino\\portable\\sketchbook\\libraries\\Servo\\src\\samd\\Servo.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\下载\\Mixly-master\\arduino\\portable\\sketchbook\\libraries\\Servo\\src\\stm32f4\\Servo.cpp",
     "Include": "",
     "Includepath": null
   }

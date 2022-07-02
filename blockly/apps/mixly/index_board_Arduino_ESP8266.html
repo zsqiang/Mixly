@@ -34,7 +34,7 @@
   <script type="text/javascript" src="../../generators/arduino/communicate.js"></script>
   <script type="text/javascript" src="../../generators/arduino/storage.js"></script>
   <script type="text/javascript" src="../../generators/arduino/sensor.js"></script>
-  <script type="text/javascript" src="../../generators/arduino/ethernet.js"></script>
+  <script type="text/javascript" src="../../generators/esp8266/ethernet.js"></script>
   <script type="text/javascript" src="../../generators/arduino/variables.js"></script>
   <script type="text/javascript" src="../../generators/arduino/procedures.js"></script>
   <script type="text/javascript" src="../../generators/arduino/serial.js"></script>
@@ -54,7 +54,7 @@
   <script type="text/javascript" src="../../blocks/arduino/communicate.js"></script>
   <script type="text/javascript" src="../../blocks/arduino/storage.js"></script>
   <script type="text/javascript" src="../../blocks/arduino/sensor.js"></script>
-  <script type="text/javascript" src="../../blocks/arduino/ethernet.js"></script>
+  <script type="text/javascript" src="../../blocks/esp8266/ethernet.js"></script>
   <script type="text/javascript" src="../../blocks/arduino/variables.js"></script>
   <script type="text/javascript" src="../../blocks/arduino/procedures.js"></script>
   <script type="text/javascript" src="../../blocks/arduino/serial.js"></script>
@@ -2534,43 +2534,43 @@
             </shadow>
           </value>
         </block>  -->
-      </category>
-      <category id="catStorage" colour="0">
-       <category id="catStorageSD" colour="0">
-        <block type="store_sd_init">
-          <value name="PIN_MOSI">
-            <shadow type="pins_MOSI">
-            </shadow>
-          </value>
-          <value name="PIN_MISO">
-            <shadow type="pins_MISO">
-            </shadow>
-          </value>
-          <value name="PIN_SCK">
-            <shadow type="pins_SCK">
-            </shadow>
-          </value>
-          <value name="PIN_CS">
-            <shadow type="pins_digital">
-              <field name="PIN">4</field>
-            </shadow>
-          </value>
-        </block>
-        <block type="sd_card_type"> </block>
-        <block type="sd_card_root_files"> </block>
-        <block type="sd_volume"></block>
-        <block type="sd_exist"> </block>
-        <block type="sd_DelFile"> </block>
-        <block type="sd_read"> </block>
-        <block type="store_sd_write">
-          <field name="FILE">fileName.txt</field>
-          <value name="DATA">
-           <shadow type="text">
-            <field name="TEXT">hello world</field>
-          </shadow>
-        </value>
-        <value name="NEWLINE">
-         <shadow type="logic_boolean">
+</category>
+<category id="catStorage" colour="0">
+  <category id="catStorageSD" colour="0">
+    <block type="store_sd_init">
+      <value name="PIN_MOSI">
+        <shadow type="pins_MOSI">
+        </shadow>
+      </value>
+      <value name="PIN_MISO">
+        <shadow type="pins_MISO">
+        </shadow>
+      </value>
+      <value name="PIN_SCK">
+        <shadow type="pins_SCK">
+        </shadow>
+      </value>
+      <value name="PIN_CS">
+        <shadow type="pins_digital">
+          <field name="PIN">4</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="sd_card_type"> </block>
+    <block type="sd_card_root_files"> </block>
+    <block type="sd_volume"></block>
+    <block type="sd_exist"> </block>
+    <block type="sd_DelFile"> </block>
+    <block type="sd_read"> </block>
+    <block type="store_sd_write">
+      <field name="FILE">fileName.txt</field>
+      <value name="DATA">
+        <shadow type="text">
+          <field name="TEXT">hello world</field>
+        </shadow>
+      </value>
+      <value name="NEWLINE">
+        <shadow type="logic_boolean">
           <field name="BOOL">TRUE</field>
         </shadow>
       </value>
@@ -2601,8 +2601,8 @@
         </shadow>
       </value>
     </block>
-  </category> 
-</category> 
+  </category>
+</category>
 <category id="catNetwork" colour="0">
   <category id="catWIFI" colour="0">
     <block type="WIFI_info" >
@@ -3396,6 +3396,123 @@
   <field name="Vpin">V0</field>
 </block>
 </category>
+<!--000000000000000000-->
+<category id="catMQTT" colour="0">
+  <block type="MQTT_server">
+    <value name="server_add">
+      <shadow type="text">
+        <field name="TEXT">39.98.114.122</field>
+      </shadow>
+    </value>
+    <value name="server_port">
+      <shadow type="math_number">
+        <field name="NUM">1883</field>
+      </shadow>
+    </value>
+    <value name="Client_ID">
+      <shadow type="text">
+        <field name="TEXT">ID</field>
+      </shadow>
+    </value>
+    <value name="IOT_ID">
+      <shadow type="text">
+        <field name="TEXT">siot</field>
+      </shadow>
+    </value>
+    <value name="IOT_PWD">
+      <shadow type="text">
+        <field name="TEXT">siot</field>
+      </shadow>
+    </value>
+  </block>
+  <block type="MQTT_publish">
+    <value name="data">
+      <shadow type="math_number">
+        <field name="NUM">120</field>
+      </shadow>
+    </value>
+    <value name="Topic">
+      <shadow type="text">
+        <field name="TEXT">Topic_0</field>
+      </shadow>
+    </value>
+  </block>
+  <block type="MQTT_subscribe">
+    <statement name="DO0">
+      <block type="serial_println">
+        <field name="serial_select">Serial</field>
+        <value name="CONTENT">
+          <block type="MQTT_subscribe_value">
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+
+  <block type="mixio_mqtt_subscribe">
+    <value name="server">
+      <shadow type="text">
+        <field name="TEXT">mixio.mixly.org</field>
+      </shadow>
+    </value>
+    <value name="port">
+      <shadow type="text">
+        <field name="TEXT">1883</field>
+      </shadow>
+    </value>
+    <value name="mqtt_username">
+      <shadow type="text">
+        <field name="TEXT">12345678@qq.com</field>
+      </shadow>
+    </value>
+    <value name="mqtt_password">
+      <shadow type="text">
+        <field name="TEXT">d86d2e60b813590963e2641b44945154</field>
+      </shadow>
+    </value>
+    <value name="project">
+      <shadow type="text">
+        <field name="TEXT">test</field>
+      </shadow>
+    </value>
+  </block>
+
+  <block type="mixio_mqtt_subscribe_key"></block>
+
+  <block type="mixio_mqtt_received_the_news">
+    <value name="topic">
+      <shadow type="text">
+        <field name="TEXT">text</field>
+      </shadow>
+    </value>
+    <statement name="function">
+      <block type="serial_println">
+        <field name="serial_select">Serial</field>
+        <field name="new_line">println</field>
+        <value name="CONTENT">
+          <block type="variables_get">
+            <field name="VAR">mqtt_data</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+<!--mqtt发送消息-->
+  <block type="mixio_mqtt_publish">
+    <value name="data">
+      <shadow type="text">
+        <field name="TEXT">Hello</field>
+      </shadow>
+    </value>
+    <value name="topic">
+      <shadow type="text">
+        <field name="TEXT">text</field>
+      </shadow>
+    </value>
+  </block>
+</category>
+<!--000000000000-->
+<!--
 <category id="catMQTT" colour="0">
   <block type="MQTT_server">
     <value name="server_add">
@@ -3458,6 +3575,7 @@
   </statement>
 </block>
 </category>
+-->
 <category id="catweather" name="catweather" colour="#27b6ac">
   <block type="weather_seniverse_city_weather">
     <value name="location">

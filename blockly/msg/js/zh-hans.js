@@ -3381,3 +3381,10 @@ Blockly.MIXLY_ASRINIT='语音识别初始化';
 Blockly.MIXLY_ASRRESULT='语音识别结果';
 Blockly.MIXLY_ASRBUSY='语音识别忙碌';
 Blockly.MIXLY_CO2='红外二氧化碳(0—5000PPM)';
+
+Blockly.MQTT_SEND_MESSAGE = 'MQTT发送消息';
+Blockly.WHEN_THE_SUBJECT_IS_RECEIVED = '当收到主题';
+Blockly.USE_MIXLY_KEY = '使用 Mixly Key';
+Blockly.CONNECT_TO_MIXIO = '连接到 MixIO';
+
+
