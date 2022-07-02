@@ -1,0 +1,11 @@
+{
+  "additionalFiles": "",
+  "builtInLibrariesFolders": "D:\\下载\\Mixly-master\\arduino\\libraries",
+  "builtInToolsFolders": "D:\\下载\\Mixly-master\\arduino\\tools-builder,D:\\下载\\Mixly-master\\arduino\\hardware\\tools\\avr,D:\\下载\\Mixly-master\\arduino\\portable\\packages",
+  "customBuildProperties": "build.path=mixlyBuild,build.warn_data_percentage=75,runtime.tools.xtensa-esp32-elf-gcc.path=D:\\下载\\Mixly-master\\arduino\\portable\\packages\\esp32\\tools\\xtensa-esp32-elf-gcc\\1.22.0-97-gc752ad5-5.2.0,runtime.tools.xtensa-esp32-elf-gcc-1.22.0-97-gc752ad5-5.2.0.path=D:\\下载\\Mixly-master\\arduino\\portable\\packages\\esp32\\tools\\xtensa-esp32-elf-gcc\\1.22.0-97-gc752ad5-5.2.0,runtime.tools.esptool_py.path=D:\\下载\\Mixly-master\\arduino\\portable\\packages\\esp32\\tools\\esptool_py\\3.0.0,runtime.tools.esptool_py-3.0.0.path=D:\\下载\\Mixly-master\\arduino\\portable\\packages\\esp32\\tools\\esptool_py\\3.0.0,runtime.tools.mkspiffs.path=D:\\下载\\Mixly-master\\arduino\\portable\\packages\\esp32\\tools\\mkspiffs\\0.2.3,runtime.tools.mkspiffs-0.2.3.path=D:\\下载\\Mixly-master\\arduino\\portable\\packages\\esp32\\tools\\mkspiffs\\0.2.3",
+  "fqbn": "esp32:esp32:esp32:PSRAM=disabled,PartitionScheme=default,CPUFreq=240,FlashMode=qio,FlashFreq=80,FlashSize=4M,UploadSpeed=921600,DebugLevel=none",
+  "hardwareFolders": "D:\\下载\\Mixly-master\\arduino\\hardware,D:\\下载\\Mixly-master\\arduino\\portable\\packages",
+  "otherLibrariesFolders": "D:\\下载\\Mixly-master\\arduino\\portable\\sketchbook\\libraries",
+  "runtime.ide.version": "10812",
+  "sketchLocation": "D:\\下载\\Mixly-master\\testArduino\\testArduino.ino"
+}

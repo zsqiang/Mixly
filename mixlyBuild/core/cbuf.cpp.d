@@ -1,0 +1,20 @@
+D:\下载\Mixly-master\mixlyBuild\core\cbuf.cpp.o: \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6\cores\esp32\cbuf.cpp \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6\cores\esp32\cbuf.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/stdint.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/machine/_default_types.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/sys/features.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/sys/_intsup.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/string.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/_ansi.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/newlib.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/sys/config.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/machine/ieeefp.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/esp32/xtensa/config/core-isa.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/sys/reent.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/_ansi.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/sys/_types.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/machine/_types.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/sys/lock.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/sys/cdefs.h \
+ D:\下载\Mixly-master\arduino\portable\packages\esp32\hardware\esp32\1.0.6/tools/sdk/include/newlib/sys/string.h
