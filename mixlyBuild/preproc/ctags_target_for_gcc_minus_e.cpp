@@ -1,54 +1,53 @@
-# 1 "D:\\下载\\Mixly-master\\testArduino\\testArduino.ino"
+# 1 "D:\\Mixly\\testArduino\\testArduino.ino"
 
-# 3 "D:\\下载\\Mixly-master\\testArduino\\testArduino.ino" 2
+# 3 "D:\\Mixly\\testArduino\\testArduino.ino" 2
+# 4 "D:\\Mixly\\testArduino\\testArduino.ino" 2
+# 5 "D:\\Mixly\\testArduino\\testArduino.ino" 2
+# 6 "D:\\Mixly\\testArduino\\testArduino.ino" 2
+# 7 "D:\\Mixly\\testArduino\\testArduino.ino" 2
 
-Servo servo_2;
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2((&u8g2_cb_r0), 255);
+WeatherNow weatherNow;
+SimpleTimer timer;
 
-float checkdistance_A4_A5() {
-  digitalWrite(A4, 0x0);
-  delayMicroseconds(2);
-  digitalWrite(A4, 0x1);
-  delayMicroseconds(10);
-  digitalWrite(A4, 0x0);
-  float distance = pulseIn(A5, 0x1) / 58.00;
-  delay(10);
-  return distance;
+void Simple_timer_1() {
+  u8g2.firstPage();
+  do
+  {
+    page1();
+  }while(u8g2.nextPage());
+}
+
+void page1() {
+  u8g2.setFont(u8g2_font_wqy12_t_gb2312);
+  u8g2.setFontPosTop();
+  Serial.println(weatherNow.getWeatherText());
+  u8g2.setCursor(0,2);
+  u8g2.print(weatherNow.getWeatherText());
+  u8g2.setCursor(0,10);
+  u8g2.print("1234");
 }
 
 void setup(){
-  pinMode(A4, 0x1);
-  pinMode(A5, 0x0);
+  WiFi.begin("sqiang1019", "123456987.");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("Local IP:");
+  Serial.print(WiFi.localIP());
+
+  u8g2.setI2CAddress(0x3C*2);
+  u8g2.begin();
   Serial.begin(9600);
-  pinMode(6, 0x1);
-  pinMode(5, 0x1);
-  pinMode(3, 0x1);
-  servo_2.attach(2);
+  weatherNow.config("SxwtUwVUkkf4pdANp", "ip", "c", "zh-Hans");
+  timer.setInterval(1000L, Simple_timer_1);
+
+  u8g2.enableUTF8Print();
+
 }
 
 void loop(){
-  int item = checkdistance_A4_A5();
-  Serial.println(item);
-  if (item < 30 && item >= 20) {
-    digitalWrite(6,0x0);
-    digitalWrite(5,0x0);
-    analogWrite(3,(map(item, 30, 20, 0, 255)));
-
-  } else if (item < 20 && item >= 10) {
-    digitalWrite(6,0x0);
-    digitalWrite(3,0x1);
-    analogWrite(5,(map(item, 20, 10, 0, 255)));
-  } else if (item < 10 && item >= 5) {
-    digitalWrite(5,0x1);
-    digitalWrite(3,0x1);
-    analogWrite(6,(map(item, 10, 5, 0, 255)));
-    servo_2.write(180);
-    delay(0);
-  } else if (item > 30) {
-    digitalWrite(3,0x0);
-    digitalWrite(5,0x0);
-    digitalWrite(6,0x0);
-    servo_2.write(0);
-    delay(0);
-  }
+  timer.run();
 
 }

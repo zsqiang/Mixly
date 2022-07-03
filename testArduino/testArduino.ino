@@ -1,53 +1,52 @@
 
-#include <Servo.h>
+#include <ESP8266WiFi.h>
+#include <U8g2lib.h>
+#include <Wire.h>
+#include <ESP8266_Seniverse.h>
+#include <SimpleTimer.h>
 
-Servo servo_2;
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
+WeatherNow weatherNow;
+SimpleTimer timer;
 
-float checkdistance_A4_A5() {
-  digitalWrite(A4, LOW);
-  delayMicroseconds(2);
-  digitalWrite(A4, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(A4, LOW);
-  float distance = pulseIn(A5, HIGH) / 58.00;
-  delay(10);
-  return distance;
+void Simple_timer_1() {
+  u8g2.firstPage();
+  do
+  {
+    page1();
+  }while(u8g2.nextPage());
+}
+
+void page1() {
+  u8g2.setFont(u8g2_font_wqy12_t_gb2312);
+  u8g2.setFontPosTop();
+  Serial.println(weatherNow.getWeatherText());
+  u8g2.setCursor(0,2);
+  u8g2.print(weatherNow.getWeatherText());
+  u8g2.setCursor(0,10);
+  u8g2.print("1234");
 }
 
 void setup(){
-  pinMode(A4, OUTPUT);
-  pinMode(A5, INPUT);
+  WiFi.begin("sqiang1019", "123456987.");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("Local IP:");
+  Serial.print(WiFi.localIP());
+
+  u8g2.setI2CAddress(0x3C*2);
+  u8g2.begin();
   Serial.begin(9600);
-  pinMode(6, OUTPUT);
-  pinMode(5, OUTPUT);
-  pinMode(3, OUTPUT);
-  servo_2.attach(2);
+  weatherNow.config("SxwtUwVUkkf4pdANp", "ip", "c", "zh-Hans");
+  timer.setInterval(1000L, Simple_timer_1);
+
+  u8g2.enableUTF8Print();
+
 }
 
 void loop(){
-  int item = checkdistance_A4_A5();
-  Serial.println(item);
-  if (item < 30 && item >= 20) {
-    digitalWrite(6,LOW);
-    digitalWrite(5,LOW);
-    analogWrite(3,(map(item, 30, 20, 0, 255)));
-
-  } else if (item < 20 && item >= 10) {
-    digitalWrite(6,LOW);
-    digitalWrite(3,HIGH);
-    analogWrite(5,(map(item, 20, 10, 0, 255)));
-  } else if (item < 10 && item >= 5) {
-    digitalWrite(5,HIGH);
-    digitalWrite(3,HIGH);
-    analogWrite(6,(map(item, 10, 5, 0, 255)));
-    servo_2.write(180);
-    delay(0);
-  } else if (item > 30) {
-    digitalWrite(3,LOW);
-    digitalWrite(5,LOW);
-    digitalWrite(6,LOW);
-    servo_2.write(0);
-    delay(0);
-  }
+  timer.run();
 
 }

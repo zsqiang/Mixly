@@ -223,6 +223,8 @@ class BlinkerApi : public BlinkerProtocol
     public :
         void run();
 
+        void printJson(const String &s);
+
         template <typename T>
         void print(T n);
         void print();
@@ -414,8 +416,9 @@ class BlinkerApi : public BlinkerProtocol
             bool configDelete();
             template<typename T>
             void dataStorage(char _name[], const T& msg);
-            void RTDataStorage(char _name[], int msg);
-            void RTDataPrint();
+            template<typename T>
+            void sendRtData(char _name[], const T& msg);
+            void printRtData();
             void timeSlotData(char _name[], int32_t msg);
             void timeSlotData(char _name[], uint32_t msg);
             void timeSlotData(char _name[], float msg);
@@ -499,10 +502,15 @@ class BlinkerApi : public BlinkerProtocol
         #if defined(BLINKER_WIFI) || defined(BLINKER_MQTT) || \
             defined(BLINKER_PRO) || defined(BLINKER_PRO_ESP)
 
-            void attachRTData(char _name[], blinker_callback_t newFunction)
+            void attachRTData(blinker_callback_t newFunction, uint8_t rt_sec = 1)
             {
-                strcpy(_RTDataKey, _name);
+                // strcpy(_RTDataKey, _name);
                 _RTDataFunc = newFunction;
+
+                if (rt_sec > 0 && rt_sec < 9)
+                {
+                    _RTTime = rt_sec;
+                }
             }
 
         #endif
@@ -865,8 +873,8 @@ class BlinkerApi : public BlinkerProtocol
         #endif
 
         #if defined(BLINKER_PRO_ESP) || defined(BLINKER_WIFI_GATEWAY)
-            void esptouchInit() { BProto::smartConfigType(); }
-            void apConfigInit() { BProto::apConfigType(); }
+            void esptouchInit() { Bwlan.checkConfig(); BProto::smartConfigType(); }
+            void apConfigInit() { Bwlan.checkConfig(); BProto::apConfigType(); }
             b_config_t configType() { return BProto::checkIsSmartConfig() ? BLINKER_SMART_CONFIG : BLINKER_AP_CONFIG; }
         #endif
 
@@ -943,6 +951,10 @@ class BlinkerApi : public BlinkerProtocol
             uint32_t    _codTime = 0;
             uint8_t     data_dataCount = 0;
             uint8_t     data_rtDataCount = 0;
+            uint8_t     data_rtKeyCount = 0;
+            uint8_t     data_rtTimes = 0;
+            time_t      data_rtTime = 0;
+            bool        data_rtRun = false;
             uint8_t     data_timeSlotDataCount = 0;
             uint32_t    time_timeSlotData = 0;
             uint8_t     _aCount = 0;
@@ -982,7 +994,7 @@ class BlinkerApi : public BlinkerProtocol
             #endif
 
             class BlinkerData *             _Data[BLINKER_MAX_BLINKER_DATA_SIZE];
-            class BlinkerRTData *           _RTData[2];
+            // class BlinkerRTData *           _RTData[BLINKER_MAX_RTDATA_SIZE];
 
             class BlinkerTimeSlotData *     _TimeSlotData[BLINKER_MAX_BLINKER_DATA_SIZE];
 
@@ -1075,9 +1087,12 @@ class BlinkerApi : public BlinkerProtocol
 
         #if defined(BLINKER_WIFI) || defined(BLINKER_MQTT) || \
             defined(BLINKER_PRO) || defined(BLINKER_PRO_ESP)
-            char                                _RTDataKey[16];
+            char                                _RTDataKey[BLINKER_MAX_RTDATA_SIZE][16];
+            uint8_t                             _RTKeyCount = 0;
             blinker_callback_t                  _RTDataFunc = NULL;
+            uint8_t                             _RTTimesCount = 0;
             Ticker                              _RTTicker;
+            uint8_t                            _RTTime = 1;
         #endif
 
         #if defined(BLINKER_MQTT) || defined(BLINKER_PRO) || defined(BLINKER_AT_MQTT) ||\
@@ -1560,9 +1575,9 @@ class BlinkerApi : public BlinkerProtocol
 
                         url_iot = BLINKER_F("/api/v1/storage/ts ");
                         #ifndef BLINKER_WITHOUT_SSL
-                        http.begin("https://storage.diandeng.tech", url_iot);
+                        http.begin(BLINKER_STORAGE_HTTPS, url_iot);
                         #else
-                        http.begin("http://storage.diandeng.tech", url_iot);
+                        http.begin(BLINKER_STORAGE_HTTPS, url_iot);
                         #endif
                         // http.addHeader(conType, application);
                         httpCode = http.POST(msg, conType, application);
@@ -1579,9 +1594,9 @@ class BlinkerApi : public BlinkerProtocol
 
                         url_iot = BLINKER_F("/api/v1/storage/text ");
                         #ifndef BLINKER_WITHOUT_SSL
-                        http.begin("https://storage.diandeng.tech", url_iot);
+                        http.begin(BLINKER_STORAGE_HTTPS, url_iot);
                         #else
-                        http.begin("http://storage.diandeng.tech", url_iot);
+                        http.begin(BLINKER_STORAGE_HTTPS, url_iot);
                         #endif
                         // http.addHeader(conType, application);
                         httpCode = http.POST(msg, conType, application);
@@ -2227,9 +2242,9 @@ class BlinkerApi : public BlinkerProtocol
                     case BLINKER_CMD_TIME_SLOT_DATA_NUMBER :
                         url_iot = BLINKER_F("/api/v1/storage/ts");
                         #ifndef BLINKER_WITHOUT_SSL
-                        http.begin("https://storage.diandeng.tech", url_iot);
+                        http.begin(BLINKER_STORAGE_HTTPS, url_iot);
                         #else
-                        http.begin("http://storage.diandeng.tech", url_iot);
+                        http.begin(BLINKER_STORAGE_HTTPS, url_iot);
                         #endif
                         // http.addHeader(conType, application);
                         httpCode = http.POST(msg, conType, application);
@@ -2237,9 +2252,9 @@ class BlinkerApi : public BlinkerProtocol
                     case BLINKER_CMD_TEXT_DATA_NUMBER :
                         url_iot = BLINKER_F("/api/v1/storage/text");
                         #ifndef BLINKER_WITHOUT_SSL
-                        http.begin("https://storage.diandeng.tech", url_iot);
+                        http.begin(BLINKER_STORAGE_HTTPS, url_iot);
                         #else
-                        http.begin("http://storage.diandeng.tech", url_iot);
+                        http.begin(BLINKER_STORAGE_HTTPS, url_iot);
                         #endif
                         // http.addHeader(conType, application);
                         httpCode = http.POST(msg, conType, application);
@@ -2247,9 +2262,9 @@ class BlinkerApi : public BlinkerProtocol
                     case BLINKER_CMD_JSON_DATA_NUMBER :
                         url_iot = BLINKER_F("/api/v1/storage/object");
                         #ifndef BLINKER_WITHOUT_SSL
-                        http.begin("https://storage.diandeng.tech", url_iot);
+                        http.begin(BLINKER_STORAGE_HTTPS, url_iot);
                         #else
-                        http.begin("http://storage.diandeng.tech", url_iot);
+                        http.begin(BLINKER_STORAGE_HTTPS, url_iot);
                         #endif
                         // http.addHeader(conType, application);
                         httpCode = http.POST(msg, conType, application);
@@ -3242,6 +3257,11 @@ void BlinkerApi::run()
                     }
                     else
                     {
+                        #if defined(BLINKER_WITHOUT_WS_REG)
+                            _getRegister = true;
+                            _isNew = true;
+                        #endif
+                        _register_fresh = millis();
                         _proStatus = PRO_DEV_AUTHCHECK_FAIL;
 
                         BLINKER_LOG_ALL(BLINKER_F("not auth, conn deviceRegister"));
@@ -3476,6 +3496,10 @@ void BlinkerApi::run()
                     }
                     else
                     {
+                        #if defined(BLINKER_WITHOUT_WS_REG)
+                            _getRegister = true;
+                            _isNew = true;
+                        #endif
                         _mqttAutoStatue = AUTO_DEV_AUTHCHECK_FAIL;
 
                         BLINKER_LOG_ALL(BLINKER_F("not auth, conn deviceRegister"));
@@ -4656,18 +4680,135 @@ void BlinkerApi::run()
     defined(BLINKER_PRO) || defined(BLINKER_PRO_ESP)
 void BlinkerApi::rtParse(const JsonObject& data)
 {
-    String get_key = data[_RTDataKey][BLINKER_CMD_GET];
-    // BLINKER_LOG_ALL(BLINKER_F("_RTDataKey: "), _RTDataKey);
-    BLINKER_LOG_ALL(BLINKER_F("get_key: "), get_key);
-    // BLINKER_LOG_ALL(BLINKER_F("strncmp: "), strncmp(_RTDataKey, get_key.c_str(), strlen(_RTDataKey)) == 0);
-    if (get_key != "null")
-    {
-        _fresh = true;
-        if (_RTDataFunc)
+    // data_rtKeyCount = 0;
+
+    // for (size_t i = 0; i < BLINKER_MAX_RTDATA_SIZE; i++)
+    // {
+    //     String get_key = data["rt"][i];
+
+    //     if (get_key != "null")
+    //     {
+    //         BLINKER_LOG_ALL(BLINKER_F("===>rt get_key: "), get_key);
+
+    //         for (size_t num = 0; num < data_rtDataCount; num++)
+    //         {
+    //             if (_RTData[num]->checkName(get_key.c_str()))
+    //             {
+    //                 strcpy(_RTDataKey[data_rtKeyCount], get_key.c_str());
+    //                 data_rtKeyCount++;
+    //             }
+    //         }
+    //     }
+    // }
+
+
+    data_rtKeyCount = 0;
+
+    if (data.containsKey("rt")) {
+
+        BLINKER_LOG_ALL(BLINKER_F("containsKey rt"));
+
+        for (size_t i = 0; i < BLINKER_MAX_RTDATA_SIZE; i++)
         {
-            _RTTicker.once(15, _RTDataFunc);
+            String get_key = data["rt"][i];
+
+            if (get_key != "null")
+            {
+                BLINKER_LOG_ALL(BLINKER_F("===>rt get_key: "), get_key);
+
+                // for (size_t num = 0; num < data_rtDataCount; num++)
+                // {
+                //     if (_RTData[num]->checkName(get_key.c_str()))
+                //     {
+                //         strcpy(_RTDataKey[data_rtKeyCount], get_key.c_str());
+                        data_rtKeyCount++;
+                //     }
+                // }
+            }
+            else
+            {
+                break;
+            }
         }
     }
+
+    BLINKER_LOG_ALL("data_rtKeyCount: ",data_rtKeyCount);
+
+    // String rt_data_str = "";
+
+    // bool is_print = false;
+
+    // for (size_t data_num = 0; data_num < BLINKER_MAX_RTDATA_DATA_SIZE; data_num++)
+    // {
+    //     rt_data_str = "{";
+
+    //     for (size_t key_num = 0; key_num < data_rtDataCount; key_num++)
+    //     {
+    //         for (size_t num = 0; num < data_rtKeyCount; num++)
+    //         {
+    //             BLINKER_LOG_ALL("_RTDataKey: ",_RTDataKey[num]);
+
+    //             if (_RTData[key_num]->checkName(_RTDataKey[num]))
+    //             {
+    //                 is_print = _RTData[key_num]->available();
+    //                 rt_data_str += _RTData[key_num]->getData();
+    //             }
+    //         }
+
+    //         if (key_num + 1 < data_rtDataCount)
+    //         {
+    //             rt_data_str += ",";
+    //         }
+    //     }
+
+    //     rt_data_str += "}";\
+
+    //     if (is_print)
+    //     {
+    //         BLINKER_LOG_ALL(BLINKER_F("===>RTData: "), rt_data_str);
+    //         BProto::checkState(false);
+    //         printJson(rt_data_str);
+    //         // BProto::printNow();
+    //     }
+    // }
+
+    // for (size_t key_num = 0; key_num < data_rtDataCount; key_num++)
+    // {
+    //     _RTData[key_num]->flush();
+    // }
+    
+    
+    // String get_key = data["rt"][0];
+    // BLINKER_LOG_ALL(BLINKER_F("_RTDataKey: "), _RTDataKey);
+    // BLINKER_LOG_ALL(BLINKER_F("rt get_key: "), get_key);
+    // BLINKER_LOG_ALL(BLINKER_F("strncmp: "), strncmp(_RTDataKey, get_key.c_str(), strlen(_RTDataKey)) == 0);
+    if (data_rtKeyCount)
+    {
+        // data_rtTime = millis();
+        
+        // if (_RTDataFunc && data_rtRun == false)
+        // {
+        //     data_rtRun = true;
+            _RTTicker.once(_RTTime, _RTDataFunc);
+
+            data_rtTimes = 0;
+
+            _fresh = true;
+
+        BLINKER_LOG_ALL("========data_rtRun");
+        // }
+    }
+    // else
+    // {
+    //     if (data_rtRun)
+    //     {
+    //         if (millis() - data_rtTime > 11000UL)
+    //         {
+    //             _RTTicker.detach();
+    //             data_rtRun = false;
+    //         }
+    //     }
+    // }
 }
 #endif
 
@@ -4890,6 +5031,11 @@ void BlinkerApi::print()
     // free(_sendBuf);
     // autoFormat = false;
     BProto::print(_msg);
+}
+
+void BlinkerApi::printJson(const String &s)
+{
+    BProto::print(s);
 }
 
 template <typename T>
@@ -6867,85 +7013,116 @@ float BlinkerApi::gps(b_gps_t axis)
     }
 
     #if !defined(BLINKER_AT_MQTT)
-    void BlinkerApi::RTDataStorage(char _name[], int msg)
+    template<typename T>
+    void BlinkerApi::sendRtData(char _name[], const T& msg)
     {
         // String _msg = STRING_format(msg);
 
-        int8_t num = checkNum(_name, _RTData, data_rtDataCount);
 
-        time_t _time = time();
-        // uint8_t _second = second();
-        time_t now_time = _time;// - _second;
 
-        // BLINKER_LOG_ALL(BLINKER_F("time: "), _time, BLINKER_F(",second: "), _second);
+        // ============================================
 
-        BLINKER_LOG_ALL(BLINKER_F("now_time: "), now_time);
 
-        // now_time = now_time - now_time % 10;
 
-        BLINKER_LOG_ALL(BLINKER_F("dataStorage num: "), num, BLINKER_F(" ,"), now_time);
-        BLINKER_LOG_ALL(BLINKER_F("dataStorage count: "), data_rtDataCount);
+        String _data_ = "{\"date\":";
+        _data_ += String(time());
+        _data_ += ",\"val\":";
+        _data_ += String(msg);
+        _data_ += "}";
 
-        // String data_msg = String(msg);
+        BProto::checkState(false);
+        printObject(_name, _data_);
+        // BProto::printNow();
 
-        // if (data_msg.length() > 10) return;
 
-        if( num == BLINKER_OBJECT_NOT_AVAIL )
-        {
-            if (data_rtDataCount == 2)
-            {
-                return;
-            }
-            _RTData[data_rtDataCount] = new BlinkerRTData();
-            _RTData[data_rtDataCount]->name(_name);
-            // _RTData[data_rtDataCount]->saveData(time(), _msg);
-            // if
-            _RTData[data_rtDataCount]->saveData(msg, now_time);
-            data_rtDataCount++;
-            // {
-            //     dataUpdate();
-            // }
+        // ============================================
 
-            BLINKER_LOG_ALL(_name, BLINKER_F(" save: "), msg, BLINKER_F(" time: "), now_time);
-            BLINKER_LOG_ALL(BLINKER_F("data_rtDataCount: "), data_rtDataCount);
-        }
-        else {
-            // _RTData[num]->saveData(time(), _msg);
-            // if
-            _RTData[num]->saveData(msg, now_time);
-            // {
-            //     dataUpdate();
-            // }
 
-            BLINKER_LOG_ALL(_name, BLINKER_F(" save: "), msg, BLINKER_F(" time: "), now_time);
-            BLINKER_LOG_ALL(BLINKER_F("data_rtDataCount: "), data_rtDataCount);
-        }
+
+
+        // int8_t num = checkNum(_name, _RTData, data_rtDataCount);
+
+        // time_t _time = time();
+
+        // if (1600000000 > time()) return;
+        // // uint8_t _second = second();
+        // time_t now_time = _time;// - _second;
+
+        // // BLINKER_LOG_ALL(BLINKER_F("time: "), _time, BLINKER_F(",second: "), _second);
+
+        // BLINKER_LOG_ALL(BLINKER_F("now_time: "), now_time);
+
+        // // now_time = now_time - now_time % 10;
+
+        // BLINKER_LOG_ALL(BLINKER_F("dataStorage num: "), num, BLINKER_F(" ,"), now_time);
+        // BLINKER_LOG_ALL(BLINKER_F("dataStorage count: "), data_rtDataCount);
+
+        // // String data_msg = String(msg);
+
+        // // if (data_msg.length() > 10) return;
+
+        // if( num == BLINKER_OBJECT_NOT_AVAIL )
+        // {
+        //     if (data_rtDataCount >= BLINKER_MAX_RTDATA_SIZE)
+        //     {
+        //         return;
+        //     }
+        //     _RTData[data_rtDataCount] = new BlinkerRTData();
+        //     _RTData[data_rtDataCount]->name(_name);
+        //     // _RTData[data_rtDataCount]->saveData(time(), _msg);
+        //     // if
+        //     _RTData[data_rtDataCount]->saveData(msg, now_time);
+        //     data_rtDataCount++;
+        //     // {
+        //     //     dataUpdate();
+        //     // }
+
+        //     BLINKER_LOG_ALL(_name, BLINKER_F(" save: "), msg, BLINKER_F(" time: "), now_time);
+        //     BLINKER_LOG_ALL(BLINKER_F("data_rtDataCount: "), data_rtDataCount);
+        // }
+        // else {
+        //     // _RTData[num]->saveData(time(), _msg);
+        //     // if
+        //     _RTData[num]->saveData(msg, now_time);
+        //     // {
+        //     //     dataUpdate();
+        //     // }
+
+        //     BLINKER_LOG_ALL(_name, BLINKER_F(" save: "), msg, BLINKER_F(" time: "), now_time);
+        //     BLINKER_LOG_ALL(BLINKER_F("data_rtDataCount: "), data_rtDataCount);
+        // }
 
 
     }
 
-    void BlinkerApi::RTDataPrint()
+    void BlinkerApi::printRtData()
     {
-        String data = "{\"rt\":{";
+        // String data = "{\"rt\":{";
 
-        for (uint8_t _num = 0; _num < data_rtDataCount; _num++) {
-            data += BLINKER_F("\"");
-            data += _RTData[_num]->getName();
-            data += BLINKER_F("\":");
-            data += _RTData[_num]->getData();
-            if (_num < data_rtDataCount - 1) {
-                data += BLINKER_F(",");
-            }
+        // for (uint8_t _num = 0; _num < data_rtDataCount; _num++) {
+        //     data += BLINKER_F("\"");
+        //     data += _RTData[_num]->getName();
+        //     data += BLINKER_F("\":");
+        //     data += _RTData[_num]->getData();
+        //     if (_num < data_rtDataCount - 1) {
+        //         data += BLINKER_F(",");
+        //     }
 
-            BLINKER_LOG_ALL(BLINKER_F("num: "), _num, \
-                    BLINKER_F(" name: "), _RTData[_num]->getName());
+        //     BLINKER_LOG_ALL(BLINKER_F("num: "), _num, \
+        //             BLINKER_F(" name: "), _RTData[_num]->getName());
 
-            BLINKER_LOG_FreeHeap_ALL();
-        }
+        //     BLINKER_LOG_FreeHeap_ALL();
+        // }
 
-        data += BLINKER_F("}}");
+        // data += BLINKER_F("}}");
 
-        printObject(_RTDataKey, data);
+        // printObject(_RTDataKey, data);
+        
+        _RTTicker.once(_RTTime, _RTDataFunc);
+
+        data_rtTimes++;
+
+        if (data_rtTimes <= 9) BProto::printNow();
     }
     #endif
 
@@ -12173,15 +12350,17 @@ char * BlinkerApi::widgetName_tab(uint8_t num)
                         break;
                     case BLINKER_CMD_TIME_SLOT_DATA_NUMBER :
                         // url_iot = host;
-                        // #ifndef BLINKER_WITHOUT_SSL
-                        //     url_iot = BLINKER_F("https://storage.diandeng.tech/api/v1/storage/ts");
-                        // #else
-                        //     url_iot = BLINKER_F("http://storage.diandeng.tech/api/v1/storage/ts");
-                        // #endif
+                        #ifndef BLINKER_WITHOUT_SSL
+                            url_iot = BLINKER_STORAGE_HTTPS;
+                            url_iot += BLINKER_F("/api/v1/storage/ts");
+                        #else
+                            url_iot = BLINKER_STORAGE_HTTPS;
+                            url_iot += BLINKER_F("/api/v1/storage/ts");
+                        #endif
 
                         
-                        url_iot = host;
-                        url_iot += BLINKER_F("/api/v1/user/device/cloud_storage/object");
+                        // url_iot = host;
+                        // url_iot += BLINKER_F("/api/v1/user/device/cloud_storage/object");
 
                         #if defined(ESP8266)
                             #ifndef BLINKER_WITHOUT_SSL
@@ -12199,9 +12378,11 @@ char * BlinkerApi::widgetName_tab(uint8_t num)
                     case BLINKER_CMD_TEXT_DATA_NUMBER :
                         // url_iot = host;
                         #ifndef BLINKER_WITHOUT_SSL
-                            url_iot = BLINKER_F("https://storage.diandeng.tech/api/v1/storage/tt");
+                            url_iot = BLINKER_STORAGE_HTTPS;
+                            url_iot += BLINKER_F("/api/v1/storage/tt");
                         #else
-                            url_iot = BLINKER_F("http://storage.diandeng.tech/api/v1/storage/tt");
+                            url_iot = BLINKER_STORAGE_HTTPS;
+                            url_iot += BLINKER_F("/api/v1/storage/tt");
                         #endif
 
                         #if defined(ESP8266)
@@ -12220,9 +12401,11 @@ char * BlinkerApi::widgetName_tab(uint8_t num)
                     case BLINKER_CMD_JSON_DATA_NUMBER :
                         // url_iot = host;
                         #ifndef BLINKER_WITHOUT_SSL
-                            url_iot = BLINKER_F("https://storage.diandeng.tech/api/v1/storage/ot");
+                            url_iot = BLINKER_STORAGE_HTTPS;
+                            url_iot += BLINKER_F("/api/v1/storage/ot");
                         #else
-                            url_iot = BLINKER_F("http://storage.diandeng.tech/api/v1/storage/ot");
+                            url_iot = BLINKER_STORAGE_HTTPS;
+                            url_iot += BLINKER_F("/api/v1/storage/ot");
                         #endif
 
                         #if defined(ESP8266)
@@ -13195,7 +13378,7 @@ char * BlinkerApi::widgetName_tab(uint8_t num)
                 // else setValue = "off";                
 
                 // if (_MIOTHeaterFunc) _MIOTHeaterFunc(setValue);
-                if (_MIOTSetModeFunc_m) _MIOTSetModeFunc_m(BLINKER_CMD_ECO, setValue);
+                if (_MIOTSetModeFunc_m) _MIOTSetModeFunc_m(BLINKER_CMD_HEATER, setValue);
             }
             else if (rootSet.containsKey(BLINKER_CMD_DRYER)) {
                 String setValue = rootSet[BLINKER_CMD_DRYER];
@@ -13204,7 +13387,7 @@ char * BlinkerApi::widgetName_tab(uint8_t num)
                 // else setValue = "off";                
 
                 // if (_MIOTDryerFunc) _MIOTDryerFunc(setValue);
-                if (_MIOTSetModeFunc_m) _MIOTSetModeFunc_m(BLINKER_CMD_ECO, setValue);
+                if (_MIOTSetModeFunc_m) _MIOTSetModeFunc_m(BLINKER_CMD_DRYER, setValue);
             }
             else if (rootSet.containsKey(BLINKER_CMD_SLEEP)) {
                 String setValue = rootSet[BLINKER_CMD_SLEEP];
@@ -13213,7 +13396,7 @@ char * BlinkerApi::widgetName_tab(uint8_t num)
                 // else setValue = "off";                
 
                 // if (_MIOTSleepFunc) _MIOTSleepFunc(setValue);
-                if (_MIOTSetModeFunc_m) _MIOTSetModeFunc_m(BLINKER_CMD_ECO, setValue);
+                if (_MIOTSetModeFunc_m) _MIOTSetModeFunc_m(BLINKER_CMD_SLEEP, setValue);
             }
             else if (rootSet.containsKey(BLINKER_CMD_SOFT)) {
                 String setValue = rootSet[BLINKER_CMD_SOFT];
@@ -13222,7 +13405,7 @@ char * BlinkerApi::widgetName_tab(uint8_t num)
                 // else setValue = "off";                
 
                 // if (_MIOTSoftFunc) _MIOTSoftFunc(setValue);
-                if (_MIOTSetModeFunc_m) _MIOTSetModeFunc_m(BLINKER_CMD_ECO, setValue);
+                if (_MIOTSetModeFunc_m) _MIOTSetModeFunc_m(BLINKER_CMD_SOFT, setValue);
             }
             else if (rootSet.containsKey(BLINKER_CMD_UV)) {
                 String setValue = rootSet[BLINKER_CMD_UV];
@@ -13231,7 +13414,7 @@ char * BlinkerApi::widgetName_tab(uint8_t num)
                 // else setValue = "off";                
 
                 // if (_MIOTUVFunc) _MIOTUVFunc(setValue);
-                if (_MIOTSetModeFunc_m) _MIOTSetModeFunc_m(BLINKER_CMD_ECO, setValue);
+                if (_MIOTSetModeFunc_m) _MIOTSetModeFunc_m(BLINKER_CMD_UV, setValue);
             }
             else if (rootSet.containsKey(BLINKER_CMD_UNSB)) {
                 String setValue = rootSet[BLINKER_CMD_UNSB];
@@ -13240,7 +13423,7 @@ char * BlinkerApi::widgetName_tab(uint8_t num)
                 // else setValue = "off";                
 
                 // if (_MIOTUNSBFunc) _MIOTUNSBFunc(setValue);
-                if (_MIOTSetModeFunc_m) _MIOTSetModeFunc_m(BLINKER_CMD_ECO, setValue);
+                if (_MIOTSetModeFunc_m) _MIOTSetModeFunc_m(BLINKER_CMD_UNSB, setValue);
             }
             else if (rootSet.containsKey(BLINKER_CMD_COLOR)) {
                 String setValue = rootSet[BLINKER_CMD_COLOR];
