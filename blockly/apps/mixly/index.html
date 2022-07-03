@@ -1346,6 +1346,45 @@ onmouseout="this.src='media/help.png'" width="20" height="20" border="0">
   </block>
   <block type="PS2_Button"></block>
   <block type="PS2_stk"></block>
+  
+  <!--5路循迹传感器 QTR-5RC 初始化-->
+  <block type="qwdz_5rc_init">
+    <value name="PINIR1">
+      <shadow type="pins_digital">
+        <field name="PIN">A0</field>
+      </shadow>
+    </value>
+    <value name="PINIR2">
+      <shadow type="pins_digital">
+        <field name="PIN">A1</field>
+      </shadow>
+    </value>
+    <value name="PINIR3">
+      <shadow type="pins_digital">
+        <field name="PIN">A2</field>
+      </shadow>
+    </value>
+    <value name="PINIR4">
+      <shadow type="pins_digital">
+        <field name="PIN">A3</field>
+      </shadow>
+    </value>
+    <value name="PINIR5">
+      <shadow type="pins_digital">
+        <field name="PIN">A4</field>
+      </shadow>
+    </value>
+  </block>
+  <!--5路循迹传感器 QTR-5RC 校准-->
+  <block type="yf_qtr_5rc_calibrate">
+  </block>
+  <!--5路循迹传感器 QTR-5RC 读取传感器-->
+  <block type="yf_qtr_5rc_readLineBlack">
+  </block>
+  <!--5路循迹传感器 QTR-5RC 读取传感器(无需校准，读原始传感器值)-->
+  <block type="yf_qtr_5rc_readWithoutCalibrate">
+  </block>
+  
 </category>
 <!--执行器模块-->
 <category id="catActuator" colour="100">
@@ -4046,41 +4085,6 @@ onmouseout="this.src='media/help.png'" width="20" height="20" border="0">
 				<shadow type="pins_digital"></shadow>
 			</value>
 		</block>
-    <!--5路循迹传感器 QTR-5RC 初始化-->
-    <block type="yf_qtr_5rc_init">
-      <value name="PINIR1">
-          <shadow type="pins_digital">
-              <field name="PIN">A0</field>
-          </shadow>
-      </value>
-      <value name="PINIR2">
-          <shadow type="pins_digital">
-              <field name="PIN">A1</field>
-          </shadow>
-      </value>
-      <value name="PINIR3">
-          <shadow type="pins_digital">
-              <field name="PIN">A2</field>
-          </shadow>
-      </value>
-      <value name="PINIR4">
-          <shadow type="pins_digital">
-              <field name="PIN">A3</field>
-          </shadow>
-      </value>
-      <value name="PINIR5">
-          <shadow type="pins_digital">
-              <field name="PIN">A4</field>
-          </shadow>
-      </value>
-  </block>
-  <!--5路循迹传感器 QTR-5RC 校准-->
-  <block type="yf_qtr_5rc_calibrate"></block>
-  <!--5路循迹传感器 QTR-5RC 读取传感器-->
-  <block type="yf_qtr_5rc_readLineBlack"></block>
-  <!--5路循迹传感器 QTR-5RC 读取传感器(无需校准，读原始传感器值)-->
-  <block type="yf_qtr_5rc_readWithoutCalibrate">
-  </block>
 	</category>
 	<!--模拟传感器-->
 	<category id="analogRead" name="模拟输入" colour="20">

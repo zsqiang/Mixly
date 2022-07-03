@@ -1765,13 +1765,59 @@ Blockly.Arduino.ke_bluetooth = function () {
 
 
   Blockly.Arduino.definitions_['include_Soft'] = '#include <SoftwareSerial.h>\n';
-  Blockly.Arduino.definitions_['mySerial'] = 'SoftwareSerial mySerial('+dropdown_pin1+', '+dropdown_pin2+');\n';
-  Blockly.Arduino.definitions_['char'] = 'char '+val+';\n';
+  Blockly.Arduino.definitions_['mySerial'] = 'SoftwareSerial mySerial(' + dropdown_pin1 + ', ' + dropdown_pin2 + ');\n';
+  Blockly.Arduino.definitions_['char'] = 'char ' + val + ';\n';
 
   Blockly.Arduino.setups_['mySerial23'] = 'mySerial.begin(9600);';
 
-   var code = 'if (mySerial.available())\n{\n'+val+' = mySerial.read();\n';
-   code += branch;
-   code += '}\n';
+  var code = 'if (mySerial.available())\n{\n' + val + ' = mySerial.read();\n';
+  code += branch;
+  code += '}\n';
   return code;
 };
+
+
+
+// 5路循迹传感器 QTR-5RC 初始化
+Blockly.Arduino.qwdz_5rc_init = function () {
+  // var qtrName = Blockly.Arduino.variableDB_.getName(this.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+  var dropdown_pin1 = Blockly.Arduino.valueToCode(this, 'PINIR1', Blockly.Arduino.ORDER_ATOMIC);
+  var dropdown_pin2 = Blockly.Arduino.valueToCode(this, 'PINIR2', Blockly.Arduino.ORDER_ATOMIC);
+  var dropdown_pin3 = Blockly.Arduino.valueToCode(this, 'PINIR3', Blockly.Arduino.ORDER_ATOMIC);
+  var dropdown_pin4 = Blockly.Arduino.valueToCode(this, 'PINIR4', Blockly.Arduino.ORDER_ATOMIC);
+  var dropdown_pin5 = Blockly.Arduino.valueToCode(this, 'PINIR5', Blockly.Arduino.ORDER_ATOMIC);
+  var NUM_SENSOR = 5;
+  Blockly.Arduino.definitions_['define_qtrlib'] = '#include "QTRSensors.h"';
+  Blockly.Arduino.definitions_['define_qtr_num_sensor'] = '#define NUM_SENSOR ' + NUM_SENSOR;
+  // Blockly.Arduino.definitions_['define_qtrclass'] = 'QTRSensors ' + qtrName +';';
+  Blockly.Arduino.definitions_['define_qtrclass'] = 'QTRSensors qtr;';
+  Blockly.Arduino.setups_['setup_output_setTypeRC'] = 'qtr.setTypeRC();';
+  Blockly.Arduino.setups_['setup_output_setSensorPins'] = 'qtr.setSensorPins((const uint8_t[]){' + dropdown_pin1 + ','
+    + dropdown_pin2 + ',' + dropdown_pin3 + ',' + dropdown_pin4 + ',' + dropdown_pin5 + '}, NUM_SENSOR);';
+  return '';
+}
+
+// 5路循迹传感器 QTR-5RC 校准
+Blockly.Arduino.yf_qtr_5rc_calibrate = function () {
+  var code = 'qtr.calibrate();';
+  return code;
+}
+
+// 5路循迹传感器 QTR-5RC 读取传感器
+Blockly.Arduino.yf_qtr_5rc_readLineBlack = function () {
+  var qtrsensorValues = Blockly.Arduino.variableDB_.getName(this.getFieldValue('VARVALUE'), Blockly.Variables.NAME_TYPE);
+  // var qtrName = Blockly.Arduino.variableDB_.getName(this.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+  Blockly.Arduino.definitions_['define_qtr' + qtrsensorValues] = 'uint16_t ' + qtrsensorValues + '[NUM_SENSOR];';
+  // var code =qtrName+'.readLineBlack('+qtrsensorValues+');';
+  var code = 'qtr.readLineBlack(' + qtrsensorValues + ')';
+  return [code, Blockly.Arduino.ORDER_ATOMIC];
+}
+
+// 5路循迹传感器 QTR-5RC 读取传感器(无需校准，读原始传感器值)
+Blockly.Arduino.yf_qtr_5rc_readWithoutCalibrate = function () {
+  var qtrsensorValues = Blockly.Arduino.variableDB_.getName(this.getFieldValue('VARVALUE'), Blockly.Variables.NAME_TYPE);
+  Blockly.Arduino.definitions_['define_qtr' + qtrsensorValues] = 'uint16_t ' + qtrsensorValues + '[NUM_SENSOR];';
+  var code = 'qtr.read(' + qtrsensorValues + ');\n';
+  return code;
+}
+
