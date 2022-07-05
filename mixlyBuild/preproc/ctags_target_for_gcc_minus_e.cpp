@@ -1,54 +1,33 @@
-# 1 "D:\\下载\\Mixly-master\\testArduino\\testArduino.ino"
+# 1 "D:\\Mixly\\testArduino\\testArduino.ino"
+float tonelist[7]={1046.5,1174.7,1318.5,1396.9,1568,1760,1975.5};
 
-# 3 "D:\\下载\\Mixly-master\\testArduino\\testArduino.ino" 2
+long musiclist[32]={1,2,3,1,1,2,3,1,3,4,5,3,4,5,5,6,5,4,3,1,5,6,5,4,3,1,2,5,1,2,5,1};
 
-Servo servo_2;
+long highlist[32]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,0,0,-1,0};
 
-float checkdistance_A4_A5() {
-  digitalWrite(A4, 0x0);
-  delayMicroseconds(2);
-  digitalWrite(A4, 0x1);
-  delayMicroseconds(10);
-  digitalWrite(A4, 0x0);
-  float distance = pulseIn(A5, 0x1) / 58.00;
-  delay(10);
-  return distance;
+long updownlist[32]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+float rhythmlist[32]={1,1,1,1,1,1,1,1,1,1,2,1,1,2,0.5,0.5,0.5,0.5,1,1,0.5,0.5,0.5,0.5,1,1,1,1,2,1,1,2};
+
+volatile float speed;
+volatile long updown;
+
+void playmusic() {
+  for (int i = 1; i <= 32; i = i + (1)) {
+    tone(5,(tonelist[(int)(musiclist[(int)(i - 1)] - 1)] * pow(2, highlist[(int)(i - 1)])) * pow(2, (updownlist[(int)(i - 1)] + updown) / 12.0));
+    delay(((1000 * (60 / speed)) * rhythmlist[(int)(i - 1)]));
+    noTone(5);
+    delay(10);
+  }
 }
 
 void setup(){
-  pinMode(A4, 0x1);
-  pinMode(A5, 0x0);
-  Serial.begin(9600);
-  pinMode(6, 0x1);
+  speed = 120.0;
+  updown = 0;
   pinMode(5, 0x1);
-  pinMode(3, 0x1);
-  servo_2.attach(2);
 }
 
 void loop(){
-  int item = checkdistance_A4_A5();
-  Serial.println(item);
-  if (item < 30 && item >= 20) {
-    digitalWrite(6,0x0);
-    digitalWrite(5,0x0);
-    analogWrite(3,(map(item, 30, 20, 0, 255)));
-
-  } else if (item < 20 && item >= 10) {
-    digitalWrite(6,0x0);
-    digitalWrite(3,0x1);
-    analogWrite(5,(map(item, 20, 10, 0, 255)));
-  } else if (item < 10 && item >= 5) {
-    digitalWrite(5,0x1);
-    digitalWrite(3,0x1);
-    analogWrite(6,(map(item, 10, 5, 0, 255)));
-    servo_2.write(180);
-    delay(0);
-  } else if (item > 30) {
-    digitalWrite(3,0x0);
-    digitalWrite(5,0x0);
-    digitalWrite(6,0x0);
-    servo_2.write(0);
-    delay(0);
-  }
+  playmusic();
 
 }
