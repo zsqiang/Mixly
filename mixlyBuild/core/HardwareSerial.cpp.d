@@ -1,4 +1,5 @@
 D:\Mixly\mixlyBuild\core\HardwareSerial.cpp.o: \
+<<<<<<< HEAD
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\HardwareSerial.cpp \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266/PolledTimeout.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2/tools/sdk/include/c_types.h \
@@ -47,3 +48,18 @@ D:\Mixly\mixlyBuild\core\HardwareSerial.cpp.o: \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\debug.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\variants\generic/pins_arduino.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\variants\generic/common.h
+=======
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\HardwareSerial.cpp \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\Arduino.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\binary.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\WCharacter.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\WString.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\HardwareSerial.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\Stream.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\Print.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\Printable.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\USBAPI.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\variants\standard/pins_arduino.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\HardwareSerial_private.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\wiring_private.h
+>>>>>>> origin/dev

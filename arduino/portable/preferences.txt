@@ -55,7 +55,11 @@ export.application.stop=true
 export.delete_target_folder=true
 gui.scale=auto
 ide.accessible=false
+<<<<<<< HEAD
 last.ide.1.8.12.daterun=1656833826
+=======
+last.ide.1.8.12.daterun=1656985889
+>>>>>>> origin/dev
 last.ide.1.8.12.hardwarepath=D:\Mixly\arduino\hardware
 last.ide.1.8.13.daterun=1596598604
 last.ide.1.8.13.hardwarepath=D:\GitHub\Mixly-For-IoT\arduino\hardware
@@ -63,9 +67,15 @@ last.screen.height=1600
 last.screen.width=2560
 last.serial.location=1034,253,807,507
 last.sketch.count=1
+<<<<<<< HEAD
 last.sketch.default.location=-11,-11,2582,1562,1241,6
 last.sketch.default.path=D:\Mixly\testArduino\testArduino.ino
 last.sketch0.location=-11,-11,2582,1562,1241,6
+=======
+last.sketch.default.location=1030,500,600,600,279,0
+last.sketch.default.path=D:\Mixly\testArduino\testArduino.ino
+last.sketch0.location=1030,500,600,600,279,0
+>>>>>>> origin/dev
 last.sketch0.path=D:\Mixly\testArduino\testArduino.ino
 last.sketch1.location=-8,-8,1936,1056,838,6
 last.sketch1.path=D:\GitHub\Mixly-For-IoT\arduino\portable\sketchbook\libraries\IRremote\examples\IRrecvDemo\IRrecvDemo.ino
@@ -111,7 +121,11 @@ target_platform=avr
 theme.file=
 update.check=true
 update.id=1986096730761595147
+<<<<<<< HEAD
 update.last=1656824059560
+=======
+update.last=1656863026094
+>>>>>>> origin/dev
 upload.using=bootloader
 upload.verbose=false
 upload.verify=false

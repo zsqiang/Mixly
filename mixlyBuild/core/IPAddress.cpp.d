@@ -1,4 +1,5 @@
 D:\Mixly\mixlyBuild\core\IPAddress.cpp.o: \
+<<<<<<< HEAD
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\IPAddress.cpp \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266/Arduino.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266/stdlib_noniso.h \
@@ -75,3 +76,18 @@ D:\Mixly\mixlyBuild\core\IPAddress.cpp.o: \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2/tools/sdk/lwip2/include/lwip-git-hash.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2/tools/sdk/lwip2/include/lwip/debug.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266/StreamString.h
+=======
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\IPAddress.cpp \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/Arduino.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/binary.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/WCharacter.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/WString.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/HardwareSerial.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/Stream.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/Print.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/Printable.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/USBAPI.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/Arduino.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\variants\standard/pins_arduino.h \
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/IPAddress.h
+>>>>>>> origin/dev

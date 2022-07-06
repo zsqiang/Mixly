@@ -19,6 +19,9 @@ Blockly.Blocks.Keyes_display.HUE = 275;
 goog.provide('Blockly.Blocks.Keyes_communication');
 Blockly.Blocks.Keyes_communication.HUE = 180;
 
+goog.provide('Blockly.Blocks.qwdz');
+Blockly.Blocks.qwdz.HUE = 40;
+
 goog.require('Blockly.Blocks');
 
 /////////////////模拟输出//////////////////////
@@ -52,24 +55,7 @@ var YF_OUTPUT_DIGITAL = [
   [Blockly.MIXLY_YF_VIBRATION_MOTOR, 'VibrationMotor'],
   [Blockly.MIXLY_YF_RELAY, 'Relay']
 ];
-// OUTPUT Digital 数字输出型模块：食人鱼LED、有源蜂鸣器Buzzer active、风扇、震动电机、继电器
-Blockly.Blocks.yf_output_digital = {
-  init:function() {
-      this.setColour(yfrobotColor_output);
-      this.appendDummyInput("")
-          .appendField(new Blockly.FieldDropdown(YF_OUTPUT_DIGITAL), 'TYPE');
-      this.appendValueInput("PIN", Number)
-          .appendField(Blockly.MIXLY_PIN)
-          .setCheck(Number);
-      this.appendValueInput("STAT")
-          .appendField(Blockly.MIXLY_STAT)
-          .setCheck([Number,Boolean]);
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
-      this.setInputsInline(true);
-      this.setTooltip("控制数字输出型模块");
-  }
-};
+// OUTPUT Digital 数字输出型模块:食人鱼LED、有源蜂鸣器Buzzer active、风扇、震动电机、继电器
 
 //////////////////红色LED////////////////
 Blockly.Blocks.ke_led_r = {
@@ -961,7 +947,7 @@ Blockly.Blocks.ke_smoke_D = {
     this.setColour(Blockly.Blocks.Keyes_digitalRead.HUE);
     this.appendDummyInput("")
     .appendField(Blockly.MIXLY_ke_SMOKE)
-    .appendField(new Blockly.FieldImage("../../media/keyes/ke_gas.png", 60, 48));
+    .appendField(new Blockly.FieldImage("../../media/keyes/ke_gas.png", 20, 20));
     this.appendValueInput("PIN", Number)
     .appendField(Blockly.MIXLY_PIN)
     .setCheck(Number);
@@ -1212,7 +1198,7 @@ Blockly.Blocks.ke_smoke = {
     this.setColour(Blockly.Blocks.Keyes_analogRead.HUE);
     this.appendDummyInput("")
     .appendField(Blockly.MIXLY_ke_SMOKE)
-    .appendField(new Blockly.FieldImage("../../media/keyes/ke_gas.png", 60, 48));
+    .appendField(new Blockly.FieldImage("../../media/keyes/ke_gas.png", 20, 20));
     this.appendValueInput("PIN", Number)
     .appendField(Blockly.MIXLY_PIN)
     .setCheck(Number);
@@ -1383,7 +1369,7 @@ Blockly.Blocks.ke_ADKey = {
     this.setColour(Blockly.Blocks.Keyes_special.HUE);
     this.appendDummyInput("")
     .appendField(Blockly.kids_ADkey)
-    .appendField(new Blockly.FieldImage("../../media/keyes/ke_ADKey.png", 60, 48));
+    .appendField(new Blockly.FieldImage("../../media/keyes/ke_ADKey.png", 20, 20));
     this.appendValueInput("PIN", Number)
     .appendField(Blockly.MIXLY_PIN)
     .setCheck(Number);
@@ -1547,7 +1533,7 @@ TIME - 时钟模块
       this.setColour(Blockly.Blocks.Keyes_special.HUE);
       this.appendDummyInput()
           .appendField(Blockly.MIXLY_ke_DS3231)
-          .appendField(new Blockly.FieldImage("../../media/keyes/ke_ds3231.png", 44, 32))
+          .appendField(new Blockly.FieldImage("../../media/keyes/ke_ds3231.png", 20, 20))
           .appendField(Blockly.MIXLY_ke_DS3231_SET_TIME);
       this.appendValueInput("year")
           .setCheck(Number).setAlign(Blockly.ALIGN_RIGHT)
@@ -1580,7 +1566,7 @@ TIME - 时钟模块
       this.setColour(Blockly.Blocks.Keyes_special.HUE);
       this.appendDummyInput()
           .appendField(Blockly.MIXLY_ke_DS3231)
-          .appendField(new Blockly.FieldImage("../../media/keyes/ke_ds3231.png", 44, 32))
+          .appendField(new Blockly.FieldImage("../../media/keyes/ke_ds3231.png", 20, 20))
           .appendField(Blockly.MIXLY_ke_DS3231_SET_TIME)
           .appendField(Blockly.MIXLY_ke_DS3231_SET_TIME2);
       this.setOutput(false, Number);
@@ -1596,7 +1582,7 @@ TIME - 时钟模块
       this.setColour(Blockly.Blocks.Keyes_special.HUE);
       this.appendDummyInput()
           .appendField(Blockly.MIXLY_ke_DS3231)
-          .appendField(new Blockly.FieldImage("../../media/keyes/ke_ds3231.png", 44, 32))
+          .appendField(new Blockly.FieldImage("../../media/keyes/ke_ds3231.png", 20, 20))
           .appendField(Blockly.MIXLY_ke_DS3231_GET_TIME)
           .appendField(new Blockly.FieldDropdown([[Blockly.MIXLY_ke_YEAR, "Year"], 
               [Blockly.MIXLY_ke_MONTH, "Month"],[Blockly.MIXLY_ke_DAY, "Day"],
@@ -1614,7 +1600,7 @@ TIME - 时钟模块
       this.setColour(Blockly.Blocks.Keyes_special.HUE);
       this.appendDummyInput()
           .appendField(Blockly.MIXLY_ke_DS1307)
-          .appendField(new Blockly.FieldImage("../../media/keyes/ke_1307.png", 32, 32))
+          .appendField(new Blockly.FieldImage("../../media/keyes/ke_1307.png", 20, 20))
           .appendField(Blockly.MIXLY_ke_DS3231_SET_TIME);
       this.appendValueInput("year")
           .setCheck(Number).setAlign(Blockly.ALIGN_RIGHT)
@@ -1647,7 +1633,7 @@ TIME - 时钟模块
       this.setColour(Blockly.Blocks.Keyes_special.HUE);
       this.appendDummyInput()
           .appendField(Blockly.MIXLY_ke_DS1307)
-          .appendField(new Blockly.FieldImage("../../media/keyes/ke_1307.png", 32, 32))
+          .appendField(new Blockly.FieldImage("../../media/keyes/ke_1307.png", 20, 20))
           .appendField(Blockly.MIXLY_ke_DS3231_SET_TIME)
           .appendField(Blockly.MIXLY_ke_DS3231_SET_TIME2);
       this.setOutput(false, Number);
@@ -1663,7 +1649,7 @@ TIME - 时钟模块
       this.setColour(Blockly.Blocks.Keyes_special.HUE);
       this.appendDummyInput()
           .appendField(Blockly.MIXLY_ke_DS1307)
-          .appendField(new Blockly.FieldImage("../../media/keyes/ke_1307.png", 32, 32))
+          .appendField(new Blockly.FieldImage("../../media/keyes/ke_1307.png", 20, 20))
           .appendField(Blockly.MIXLY_ke_DS3231_GET_TIME)
           .appendField(new Blockly.FieldDropdown([[Blockly.MIXLY_ke_YEAR, "Year"], 
               [Blockly.MIXLY_ke_MONTH, "Month"],[Blockly.MIXLY_ke_DAY, "Day"],
@@ -1899,7 +1885,7 @@ var ke_APDS_PIN2 = [
     this.setColour(Blockly.Blocks.Keyes_special.HUE);
     this.appendDummyInput("")
     .appendField(Blockly.ke_Gesture_APDS)
-    .appendField(new Blockly.FieldImage("../../media/keyes/ke_Gesture_APDS.png", 32, 32)); //图片
+    .appendField(new Blockly.FieldImage("../../media/keyes/ke_Gesture_APDS.png", 20, 20)); //图片
     this.appendDummyInput("").setAlign(Blockly.ALIGN_RIGHT).appendField("SDA#").appendField(new Blockly.FieldDropdown(ke_APDS_PIN1), "APDS_PIN1");
     this.appendDummyInput("").setAlign(Blockly.ALIGN_RIGHT).appendField("SCL#").appendField(new Blockly.FieldDropdown(ke_APDS_PIN2), "APDS_PIN2");
     this.setInputsInline(true);
@@ -1928,15 +1914,15 @@ Blockly.Blocks.ke_rgb2812 = {
         this.appendValueInput("red")
             .setCheck(Number)
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("R：");
+            .appendField("R:");
         this.appendValueInput("green")
             .setCheck(Number)
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("G：");
+            .appendField("G:");
         this.appendValueInput("blue")
             .setCheck(Number)
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("B：");
+            .appendField("B:");
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
@@ -2014,7 +2000,7 @@ Blockly.Blocks.ke_4digitdisplay_displayNumber = {
       this.setInputsInline(true);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setTooltip("支持类型：int、float、double");
+      this.setTooltip("支持类型:int、float、double");
   }
 };
 // TM1650 4 digital display  -- 小数点显示
@@ -2035,7 +2021,7 @@ Blockly.Blocks.ke_4digitdisplay_showDot = {
       this.setInputsInline(true);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setTooltip("数字模式小数点：1~4");
+      this.setTooltip("数字模式小数点:1~4");
   }
 };
 
@@ -2053,7 +2039,7 @@ init: function() {
   this.setPreviousStatement(true);
   this.setNextStatement(true);
   this.setInputsInline(true);
-  this.setTooltip("亮度等级范围：1~8");
+  this.setTooltip("亮度等级范围:1~8");
 }
 };
 
@@ -3308,30 +3294,119 @@ Blockly.Blocks.rc522_i2c_read = {
 
 //////////////////////蓝牙////////////////////////////
 Blockly.Blocks.ke_bluetooth = {
-    init: function () {
-        this.setColour(Blockly.Blocks.Keyes_communication.HUE);
-        this.appendValueInput("PIN1", Number)
-            .appendField(new Blockly.FieldTextInput('val'), 'VAL')
-            .appendField(Blockly.MIXLY_ke_BLUETOOTH)
-            .appendField(new Blockly.FieldImage("../../media/keyes/ke_bluetooth.png", 70, 32))
-            .appendField("RX:")
-            .setCheck(Number);
-        this.appendValueInput("PIN2", Number)
-            .appendField("TX:")
-            .setCheck(Number);
-        this.appendStatementInput('DO')
-            .appendField(Blockly.MIXLY_ke_read);
-        this.setPreviousStatement(true);
-        this.setNextStatement(true);
-        this.setInputsInline(true);
-        this.setTooltip("bluetooth");
-    },
-    getVars: function () {
-        return [this.getFieldValue('VAL')];
-    },
-    renameVar: function (oldName, newName) {
-        if (Blockly.Names.equals(oldName, this.getFieldValue('VAL'))) {
-            this.setTitleValue(newName, 'VAL');
-        }
+  init: function () {
+    this.setColour(Blockly.Blocks.Keyes_communication.HUE);
+    this.appendValueInput("PIN1", Number)
+      .appendField(new Blockly.FieldTextInput('val'), 'VAL')
+      .appendField(Blockly.MIXLY_ke_BLUETOOTH)
+      .appendField(new Blockly.FieldImage("../../media/keyes/ke_bluetooth.png", 70, 32))
+      .appendField("RX:")
+      .setCheck(Number);
+    this.appendValueInput("PIN2", Number)
+      .appendField("TX:")
+      .setCheck(Number);
+    this.appendStatementInput('DO')
+      .appendField(Blockly.MIXLY_ke_read);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setInputsInline(true);
+    this.setTooltip("bluetooth");
+  },
+  getVars: function () {
+    return [this.getFieldValue('VAL')];
+  },
+  renameVar: function (oldName, newName) {
+    if (Blockly.Names.equals(oldName, this.getFieldValue('VAL'))) {
+      this.setTitleValue(newName, 'VAL');
     }
+  }
 };
+
+// 5路循迹传感器 QTR-5RC 初始化
+
+Blockly.Blocks.qwdz_5rc_init = {
+  init: function () {
+    this.setColour(Blockly.Blocks.qwdz.HUE);
+    this.appendDummyInput("")
+      .appendField("循迹初始化");
+    this.appendValueInput("PINIR1", Number)
+      .appendField('IR1')
+      .setCheck(Number);
+    this.appendValueInput("PINIR2", Number)
+      .appendField('IR2')
+      .setCheck(Number);
+    this.appendValueInput("PINIR3", Number)
+      .appendField('IR3')
+      .setCheck(Number);
+    this.appendValueInput("PINIR4", Number)
+      .appendField('IR4')
+      .setCheck(Number);
+    this.appendValueInput("PINIR5", Number)
+      .appendField('IR5')
+      .setCheck(Number);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setInputsInline(true);
+    this.setTooltip("5路循迹模块初始化");
+  }, getVars: function () {
+    return [this.getFieldValue('VAR')];
+  }, renameVar: function (oldName, newName) {
+    if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
+      this.setTitleValue(newName, 'VAR');
+    }
+  }
+};
+
+// 5路循迹传感器 QTR-5RC 校准
+Blockly.Blocks.yf_qtr_5rc_calibrate = {
+  init: function () {
+    this.setColour(Blockly.Blocks.qwdz.HUE);
+    this.appendDummyInput("")
+      .appendField("循迹校准");
+    // .appendField(new Blockly.FieldImage("./libraries/ThirdParty/YFRobot/media/yfrobot/yf_ultrasonic_04.png", 70, 32))
+    // .appendField(" ")
+    // .appendField(new Blockly.FieldTextInput('qtr'), 'VAR');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setInputsInline(true);
+    this.setTooltip("循迹校准:将传感器置于最亮和最暗的环境中");
+  }
+};
+
+// 5路循迹传感器 QTR-5RC 读取传感器
+Blockly.Blocks.yf_qtr_5rc_readLineBlack = {
+  init: function () {
+    this.setColour(Blockly.Blocks.qwdz.HUE);
+    this.appendDummyInput("")
+      .appendField("循迹读取传感器");
+    // .appendField(new Blockly.FieldImage("./libraries/ThirdParty/YFRobot/media/yfrobot/yf_ultrasonic_04.png", 70, 32))
+    // .appendField(" ")
+    // .appendField(new Blockly.FieldTextInput('qtr'), 'VAR');
+    this.appendDummyInput("")
+      .appendField(" ")
+      .appendField(new Blockly.FieldTextInput('sensorValues'), 'VARVALUE');
+    this.setInputsInline(true);
+    this.setOutput(true, Number);
+    this.setTooltip("sensorValues[5]，校准后使用;0-最大反射率，1000-最小反射率。");
+  }
+};
+
+// 5路循迹传感器 QTR-5RC 读取传感器(无需校准，读原始传感器值)
+Blockly.Blocks.yf_qtr_5rc_readWithoutCalibrate = {
+  init: function () {
+    this.setColour(Blockly.Blocks.qwdz.HUE);
+    this.appendDummyInput("")
+      .appendField("循迹读取传感器原始值（0~2500）");
+    // .appendField(new Blockly.FieldImage("./libraries/ThirdParty/YFRobot/media/yfrobot/yf_ultrasonic_04.png", 70, 32))
+    // .appendField(" ")
+    // .appendField(new Blockly.FieldTextInput('qtr'), 'VAR');
+    this.appendDummyInput("")
+      .appendField(" ")
+      .appendField(new Blockly.FieldTextInput('sensorValues'), 'VARVALUE');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setInputsInline(true);
+    this.setTooltip("sensorValues[5]，无需校准读原始传感器值;0-最大反射率，2500-最小反射率。");
+  }
+};
+
