@@ -243,9 +243,8 @@ class BLINKERMIOT
         {
             String payload = BLINKER_F("\"");
             payload += mode;
-            payload += BLINKER_F("\":\"");
+            payload += BLINKER_F("\":");
             payload += state;
-            payload += BLINKER_F("\"");
 
             // Blinker.aligeniePrint(payload);
 

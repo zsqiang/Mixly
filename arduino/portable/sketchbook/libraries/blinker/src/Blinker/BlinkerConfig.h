@@ -5,7 +5,7 @@
 // #include "Blinker/BlinkerUtility.h"
 #include "../Server/BlinkerServer.h"
 
-#define BLINKER_VERSION                 "0.3.9"
+#define BLINKER_VERSION                 "0.3.80210527"
 
 #define BLINKER_CONNECT_TIMEOUT_MS      10000UL
 
@@ -639,10 +639,6 @@
 #endif
 
 #define BLINKER_MAX_BLINKER_DATA_SIZE   8
-
-#define BLINKER_MAX_RTDATA_DATA_SIZE    10
-
-#define BLINKER_MAX_RTDATA_SIZE         4
 
 #define BLINKER_MAX_DATA_COUNT          4
 
