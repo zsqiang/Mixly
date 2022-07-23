@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -22,10 +22,10 @@ class Writer< ::String, void> {
   }
 
   size_t write(uint8_t c) {
-    if (_size + 1 >= bufferCapacity)
-      if (flush() != 0)
-        return 0;
+    ARDUINOJSON_ASSERT(_size < bufferCapacity);
     _buffer[_size++] = static_cast<char>(c);
+    if (_size + 1 >= bufferCapacity)
+      flush();
     return 1;
   }
 
@@ -36,15 +36,14 @@ class Writer< ::String, void> {
     return n;
   }
 
-  size_t flush() {
+ private:
+  void flush() {
     ARDUINOJSON_ASSERT(_size < bufferCapacity);
     _buffer[_size] = 0;
-    if (_destination->concat(_buffer))
-      _size = 0;
-    return _size;
+    *_destination += _buffer;
+    _size = 0;
   }
 
- private:
   ::String *_destination;
   char _buffer[bufferCapacity];
   size_t _size;

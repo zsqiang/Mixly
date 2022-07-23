@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -7,7 +7,6 @@
 #include <ArduinoJson/Memory/Alignment.hpp>
 #include <ArduinoJson/Polyfills/assert.hpp>
 #include <ArduinoJson/Polyfills/mpl/max.hpp>
-#include <ArduinoJson/Strings/StringAdapters.hpp>
 #include <ArduinoJson/Variant/VariantSlot.hpp>
 
 #include <string.h>  // memmove
@@ -38,8 +37,7 @@ class MemoryPool {
   }
 
   void* buffer() {
-    return _begin;  // NOLINT(clang-analyzer-unix.Malloc)
-                    // movePointers() alters this pointer
+    return _begin;
   }
 
   // Gets the capacity of the memoryPool in bytes
@@ -60,12 +58,12 @@ class MemoryPool {
   }
 
   template <typename TAdaptedString>
-  const char* saveString(TAdaptedString str) {
+  const char* saveString(const TAdaptedString& str) {
     if (str.isNull())
       return 0;
 
 #if ARDUINOJSON_ENABLE_STRING_DEDUPLICATION
-    const char* existingCopy = findString(str);
+    const char* existingCopy = findString(str.begin());
     if (existingCopy)
       return existingCopy;
 #endif
@@ -74,7 +72,7 @@ class MemoryPool {
 
     char* newCopy = allocString(n + 1);
     if (newCopy) {
-      stringGetChars(str, newCopy, n);
+      str.copyTo(newCopy, n);
       newCopy[n] = 0;  // force null-terminator
     }
     return newCopy;
@@ -87,14 +85,13 @@ class MemoryPool {
 
   const char* saveStringFromFreeZone(size_t len) {
 #if ARDUINOJSON_ENABLE_STRING_DEDUPLICATION
-    const char* dup = findString(adaptString(_left, len));
+    const char* dup = findString(_left);
     if (dup)
       return dup;
 #endif
 
     const char* str = _left;
     _left += len;
-    *_left++ = 0;
     checkInvariants();
     return str;
   }
@@ -165,12 +162,16 @@ class MemoryPool {
   }
 
 #if ARDUINOJSON_ENABLE_STRING_DEDUPLICATION
-  template <typename TAdaptedString>
-  const char* findString(const TAdaptedString& str) const {
-    size_t n = str.size();
-    for (char* next = _begin; next + n < _left; ++next) {
-      if (next[n] == '\0' && stringEquals(str, adaptString(next, n)))
-        return next;
+  template <typename TIterator>
+  const char* findString(TIterator str) {
+    for (char* next = _begin; next < _left; ++next) {
+      char* begin = next;
+
+      // try to match
+      for (TIterator it = str; *it == *next; ++it) {
+        if (*next++ == 0)
+          return begin;
+      }
 
       // jump to next terminator
       while (*next) ++next;

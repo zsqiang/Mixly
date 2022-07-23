@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -45,8 +45,7 @@ class Latch {
   }
 
   TReader _reader;
-  char _current;  // NOLINT(clang-analyzer-optin.cplusplus.UninitializedObject)
-                  // Not initialized in constructor (+10 bytes on AVR)
+  char _current;
   bool _loaded;
 #if ARDUINOJSON_DEBUG
   bool _ended;

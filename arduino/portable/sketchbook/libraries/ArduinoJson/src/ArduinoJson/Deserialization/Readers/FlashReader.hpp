@@ -1,10 +1,8 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
-
-#include <Arduino.h>
 
 namespace ARDUINOJSON_NAMESPACE {
 

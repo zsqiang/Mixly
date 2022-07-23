@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -32,6 +32,9 @@ class MsgPackDeserializer {
   }
 
  private:
+  // Prevent VS warning "assignment operator could not be generated"
+  MsgPackDeserializer &operator=(const MsgPackDeserializer &);
+
   bool invalidInput() {
     _error = DeserializationError::InvalidInput;
     return false;
@@ -47,11 +50,6 @@ class MsgPackDeserializer {
     _foundSomething = true;
 
     bool allowValue = filter.allowValue();
-
-    if (allowValue) {
-      // callers pass a null pointer only when value must be ignored
-      ARDUINOJSON_ASSERT(variant != 0);
-    }
 
     switch (code) {
       case 0xc0:
@@ -336,7 +334,8 @@ class MsgPackDeserializer {
   bool readString(VariantData *variant, size_t n) {
     if (!readString(n))
       return false;
-    variant->setString(_stringStorage.save());
+    variant->setStringPointer(_stringStorage.save(),
+                              typename TStringStorage::storage_policy());
     return true;
   }
 
@@ -348,6 +347,7 @@ class MsgPackDeserializer {
         return false;
       _stringStorage.append(static_cast<char>(c));
     }
+    _stringStorage.append('\0');
     if (!_stringStorage.isValid()) {
       _error = DeserializationError::NoMemory;
       return false;
@@ -422,13 +422,11 @@ class MsgPackDeserializer {
       if (!readKey())
         return false;
 
-      String key = _stringStorage.str();
-      TFilter memberFilter = filter[key.c_str()];
+      const char *key = _stringStorage.c_str();
+      TFilter memberFilter = filter[key];
       VariantData *member;
 
       if (memberFilter.allow()) {
-        ARDUINOJSON_ASSERT(object);
-
         // Save key in memory pool.
         // This MUST be done before adding the slot.
         key = _stringStorage.save();
@@ -439,7 +437,7 @@ class MsgPackDeserializer {
           return false;
         }
 
-        slot->setKey(key);
+        slot->setKey(key, typename TStringStorage::storage_policy());
 
         member = slot->data();
       } else {
@@ -481,7 +479,7 @@ class MsgPackDeserializer {
     T size;
     if (!readInteger(size))
       return false;
-    return skipBytes(size + 1U);
+    return skipBytes(size + 1);
   }
 
   MemoryPool *_pool;

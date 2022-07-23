@@ -1,9 +1,8 @@
 # ArduinoJson - https://arduinojson.org
-# Copyright © 2014-2022, Benoit BLANCHON
+# Copyright Benoit Blanchon 2014-2021
 # MIT License
 
 add_executable(NumbersTests 
-	convertNumber.cpp
 	parseFloat.cpp
 	parseDouble.cpp
 	parseInteger.cpp

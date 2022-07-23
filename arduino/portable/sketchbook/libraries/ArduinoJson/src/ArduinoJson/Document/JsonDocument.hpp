@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -8,14 +8,12 @@
 #include <ArduinoJson/Memory/MemoryPool.hpp>
 #include <ArduinoJson/Object/MemberProxy.hpp>
 #include <ArduinoJson/Object/ObjectRef.hpp>
-#include <ArduinoJson/Strings/StoragePolicy.hpp>
 #include <ArduinoJson/Variant/VariantRef.hpp>
 #include <ArduinoJson/Variant/VariantTo.hpp>
 
 namespace ARDUINOJSON_NAMESPACE {
 
-class JsonDocument : public Visitable,
-                     public VariantOperators<const JsonDocument&> {
+class JsonDocument : public Visitable {
  public:
   template <typename TVisitor>
   typename TVisitor::result_type accept(TVisitor& visitor) const {
@@ -34,7 +32,7 @@ class JsonDocument : public Visitable,
 
   void clear() {
     _pool.clear();
-    _data.init();
+    _data.setNull();
   }
 
   template <typename T>
@@ -140,14 +138,14 @@ class JsonDocument : public Visitable,
   // containsKey(const __FlashStringHelper*) const
   template <typename TChar>
   bool containsKey(TChar* key) const {
-    return !getMember(key).isUnbound();
+    return !getMember(key).isUndefined();
   }
 
   // containsKey(const std::string&) const
   // containsKey(const String&) const
   template <typename TString>
   bool containsKey(const TString& key) const {
-    return !getMember(key).isUnbound();
+    return !getMember(key).isUndefined();
   }
 
   // operator[](const std::string&)
@@ -246,18 +244,14 @@ class JsonDocument : public Visitable,
   // getOrAddMember(const __FlashStringHelper*)
   template <typename TChar>
   FORCE_INLINE VariantRef getOrAddMember(TChar* key) {
-    return VariantRef(&_pool,
-                      _data.getOrAddMember(adaptString(key), &_pool,
-                                           getStringStoragePolicy(key)));
+    return VariantRef(&_pool, _data.getOrAddMember(adaptString(key), &_pool));
   }
 
   // getOrAddMember(const std::string&)
   // getOrAddMember(const String&)
   template <typename TString>
   FORCE_INLINE VariantRef getOrAddMember(const TString& key) {
-    return VariantRef(&_pool,
-                      _data.getOrAddMember(adaptString(key), &_pool,
-                                           getStringStoragePolicy(key)));
+    return VariantRef(&_pool, _data.getOrAddMember(adaptString(key), &_pool));
   }
 
   FORCE_INLINE VariantRef addElement() {
@@ -296,25 +290,29 @@ class JsonDocument : public Visitable,
     _data.remove(adaptString(key));
   }
 
-  FORCE_INLINE operator VariantRef() {
-    return getVariant();
+  FORCE_INLINE operator VariantConstRef() const {
+    return VariantConstRef(&_data);
   }
 
-  FORCE_INLINE operator VariantConstRef() const {
-    return getVariant();
+  bool operator==(VariantConstRef rhs) const {
+    return getVariant() == rhs;
+  }
+
+  bool operator!=(VariantConstRef rhs) const {
+    return getVariant() != rhs;
   }
 
  protected:
   JsonDocument() : _pool(0, 0) {
-    _data.init();
+    _data.setNull();
   }
 
   JsonDocument(MemoryPool pool) : _pool(pool) {
-    _data.init();
+    _data.setNull();
   }
 
   JsonDocument(char* buf, size_t capa) : _pool(buf, capa) {
-    _data.init();
+    _data.setNull();
   }
 
   ~JsonDocument() {}
@@ -339,8 +337,8 @@ class JsonDocument : public Visitable,
   JsonDocument& operator=(const JsonDocument&);
 };
 
-inline void convertToJson(const JsonDocument& src, VariantRef dst) {
-  dst.set(src.as<VariantConstRef>());
+inline bool convertToJson(const JsonDocument& src, VariantRef dst) {
+  return dst.set(src.as<VariantConstRef>());
 }
 
 }  // namespace ARDUINOJSON_NAMESPACE

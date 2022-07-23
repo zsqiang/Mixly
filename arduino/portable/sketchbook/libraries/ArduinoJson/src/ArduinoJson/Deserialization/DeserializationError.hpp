@@ -1,21 +1,24 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
 
-#include <ArduinoJson/Misc/SafeBoolIdiom.hpp>
 #include <ArduinoJson/Namespace.hpp>
 #include <ArduinoJson/Polyfills/preprocessor.hpp>
 #include <ArduinoJson/Polyfills/static_array.hpp>
 
 #if ARDUINOJSON_ENABLE_STD_STREAM
-#  include <ostream>
+#include <ostream>
 #endif
 
 namespace ARDUINOJSON_NAMESPACE {
 
-class DeserializationError : public SafeBoolIdom<DeserializationError> {
+class DeserializationError {
+  // safe bool idiom
+  typedef void (DeserializationError::*bool_type)() const;
+  void safeBoolHelper() const {}
+
  public:
   enum Code {
     Ok,
@@ -55,7 +58,19 @@ class DeserializationError : public SafeBoolIdom<DeserializationError> {
 
   // Behaves like a bool
   operator bool_type() const {
-    return _code != Ok ? safe_true() : safe_false();
+    return _code != Ok ? &DeserializationError::safeBoolHelper : 0;
+  }
+  friend bool operator==(bool value, const DeserializationError& err) {
+    return static_cast<bool>(err) == value;
+  }
+  friend bool operator==(const DeserializationError& err, bool value) {
+    return static_cast<bool>(err) == value;
+  }
+  friend bool operator!=(bool value, const DeserializationError& err) {
+    return static_cast<bool>(err) != value;
+  }
+  friend bool operator!=(const DeserializationError& err, bool value) {
+    return static_cast<bool>(err) != value;
   }
 
   // Returns internal enum, useful for switch statement

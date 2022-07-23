@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -32,7 +32,7 @@ class VariantRefBase : public VariantTag {
     return variantIsNull(_data);
   }
 
-  FORCE_INLINE bool isUnbound() const {
+  FORCE_INLINE bool isUndefined() const {
     return !_data;
   }
 
@@ -85,18 +85,18 @@ class VariantRef : public VariantRefBase<VariantData>,
 
   template <typename T>
   FORCE_INLINE bool set(const T &value) const {
-    Converter<T>::toJson(value, *this);
-    return _pool && !_pool->overflowed();
+    return Converter<T>::toJson(value, *this);
   }
 
-  bool ARDUINOJSON_DEPRECATED(
+  FORCE_INLINE bool ARDUINOJSON_DEPRECATED(
       "Support for char is deprecated, use int8_t or uint8_t instead")
-      set(char value) const;
+      set(char value) const {
+    return set<signed char>(value);
+  }
 
   template <typename T>
   FORCE_INLINE bool set(T *value) const {
-    Converter<T *>::toJson(value, *this);
-    return _pool && !_pool->overflowed();
+    return Converter<T *>::toJson(value, *this);
   }
 
   template <typename T>
@@ -119,7 +119,7 @@ class VariantRef : public VariantRefBase<VariantData>,
   ARDUINOJSON_DEPRECATED(
       "Support for char is deprecated, use int8_t or uint8_t instead")
       as() const {
-    return static_cast<char>(as<signed char>());
+    return as<signed char>();
   }
 
   template <typename T>
@@ -265,7 +265,7 @@ class VariantConstRef : public VariantRefBase<const VariantData>,
   ARDUINOJSON_DEPRECATED(
       "Support for char is deprecated, use int8_t or uint8_t instead")
       as() const {
-    return static_cast<char>(as<signed char>());
+    return as<signed char>();
   }
 
   template <typename T>
@@ -341,22 +341,16 @@ class VariantConstRef : public VariantRefBase<const VariantData>,
 
 template <>
 struct Converter<VariantRef> {
-  static void toJson(VariantRef src, VariantRef dst) {
-    variantCopyFrom(getData(dst), getData(src), getPool(dst));
+  static bool toJson(VariantRef src, VariantRef dst) {
+    return variantCopyFrom(getData(dst), getData(src), getPool(dst));
   }
-
   static VariantRef fromJson(VariantRef src) {
     return src;
   }
-
-  static InvalidConversion<VariantConstRef, VariantRef> fromJson(
-      VariantConstRef);
-
   static bool checkJson(VariantRef src) {
     VariantData *data = getData(src);
     return !!data;
   }
-
   static bool checkJson(VariantConstRef) {
     return false;
   }
@@ -364,8 +358,8 @@ struct Converter<VariantRef> {
 
 template <>
 struct Converter<VariantConstRef> {
-  static void toJson(VariantConstRef src, VariantRef dst) {
-    variantCopyFrom(getData(dst), getData(src), getPool(dst));
+  static bool toJson(VariantConstRef src, VariantRef dst) {
+    return variantCopyFrom(getData(dst), getData(src), getPool(dst));
   }
 
   static VariantConstRef fromJson(VariantConstRef src) {

@@ -1,24 +1,17 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
 
 #include "ArduinoJson/Configuration.hpp"
 
-// Include Arduino.h before stdlib.h to avoid conflict with atexit()
-// https://github.com/bblanchon/ArduinoJson/pull/1693#issuecomment-1001060240
-#if ARDUINOJSON_ENABLE_ARDUINO_STRING || ARDUINOJSON_ENABLE_ARDUINO_STREAM || \
-    ARDUINOJSON_ENABLE_ARDUINO_PRINT || ARDUINOJSON_ENABLE_PROGMEM
-#  include <Arduino.h>
-#endif
-
 #if !ARDUINOJSON_DEBUG
-#  ifdef __clang__
-#    pragma clang system_header
-#  elif defined __GNUC__
-#    pragma GCC system_header
-#  endif
+#ifdef __clang__
+#pragma clang system_header
+#elif defined __GNUC__
+#pragma GCC system_header
+#endif
 #endif
 
 #include "ArduinoJson/Array/ArrayRef.hpp"

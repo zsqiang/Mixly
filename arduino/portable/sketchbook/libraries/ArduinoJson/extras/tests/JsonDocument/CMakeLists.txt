@@ -1,11 +1,10 @@
 # ArduinoJson - https://arduinojson.org
-# Copyright © 2014-2022, Benoit BLANCHON
+# Copyright Benoit Blanchon 2014-2021
 # MIT License
 
 add_executable(JsonDocumentTests
 	add.cpp
 	BasicJsonDocument.cpp
-	cast.cpp
 	compare.cpp
 	containsKey.cpp
 	createNested.cpp
@@ -20,7 +19,6 @@ add_executable(JsonDocumentTests
 	size.cpp
 	StaticJsonDocument.cpp
 	subscript.cpp
-	swap.cpp
 )
 
 add_test(JsonDocument JsonDocumentTests)

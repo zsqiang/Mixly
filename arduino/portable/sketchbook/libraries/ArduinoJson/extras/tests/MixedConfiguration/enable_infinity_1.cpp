@@ -22,8 +22,7 @@ TEST_CASE("ARDUINOJSON_ENABLE_INFINITY == 1") {
   }
 
   SECTION("deserializeJson()") {
-    DeserializationError err =
-        deserializeJson(doc, "[Infinity,-Infinity,+Infinity]");
+    auto err = deserializeJson(doc, "[Infinity,-Infinity,+Infinity]");
     float a = doc[0];
     float b = doc[1];
     float c = doc[2];

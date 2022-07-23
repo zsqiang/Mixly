@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -40,15 +40,14 @@ class CollectionData {
 
   // Object only
 
-  template <typename TAdaptedString, typename TStoragePolicy>
-  VariantData *addMember(TAdaptedString key, MemoryPool *pool, TStoragePolicy);
+  template <typename TAdaptedString>
+  VariantData *addMember(TAdaptedString key, MemoryPool *pool);
 
   template <typename TAdaptedString>
   VariantData *getMember(TAdaptedString key) const;
 
-  template <typename TAdaptedString, typename TStoragePolicy>
-  VariantData *getOrAddMember(TAdaptedString key, MemoryPool *pool,
-                              TStoragePolicy);
+  template <typename TAdaptedString>
+  VariantData *getOrAddMember(TAdaptedString key, MemoryPool *pool);
 
   template <typename TAdaptedString>
   void removeMember(TAdaptedString key) {

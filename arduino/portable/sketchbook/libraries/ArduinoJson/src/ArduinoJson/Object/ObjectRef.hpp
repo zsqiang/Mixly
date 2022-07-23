@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -77,7 +77,7 @@ class ObjectConstRef : public ObjectRefBase<const CollectionData>,
   // containsKey(const String&) const
   template <typename TString>
   FORCE_INLINE bool containsKey(const TString& key) const {
-    return !getMember(key).isUnbound();
+    return !getMember(key).isUndefined();
   }
 
   // containsKey(char*) const
@@ -85,7 +85,7 @@ class ObjectConstRef : public ObjectRefBase<const CollectionData>,
   // containsKey(const __FlashStringHelper*) const
   template <typename TChar>
   FORCE_INLINE bool containsKey(TChar* key) const {
-    return !getMember(key).isUnbound();
+    return !getMember(key).isUndefined();
   }
 
   // getMember(const std::string&) const
@@ -196,8 +196,7 @@ class ObjectRef : public ObjectRefBase<CollectionData>,
   template <typename TString>
   FORCE_INLINE VariantRef getOrAddMember(const TString& key) const {
     return VariantRef(_pool,
-                      objectGetOrAddMember(_data, adaptString(key), _pool,
-                                           getStringStoragePolicy(key)));
+                      objectGetOrAddMember(_data, adaptString(key), _pool));
   }
 
   // getOrAddMember(char*) const
@@ -206,8 +205,7 @@ class ObjectRef : public ObjectRefBase<CollectionData>,
   template <typename TChar>
   FORCE_INLINE VariantRef getOrAddMember(TChar* key) const {
     return VariantRef(_pool,
-                      objectGetOrAddMember(_data, adaptString(key), _pool,
-                                           getStringStoragePolicy(key)));
+                      objectGetOrAddMember(_data, adaptString(key), _pool));
   }
 
   FORCE_INLINE bool operator==(ObjectRef rhs) const {
@@ -241,8 +239,8 @@ class ObjectRef : public ObjectRefBase<CollectionData>,
 
 template <>
 struct Converter<ObjectConstRef> {
-  static void toJson(VariantConstRef src, VariantRef dst) {
-    variantCopyFrom(getData(dst), getData(src), getPool(dst));
+  static bool toJson(VariantConstRef src, VariantRef dst) {
+    return variantCopyFrom(getData(dst), getData(src), getPool(dst));
   }
 
   static ObjectConstRef fromJson(VariantConstRef src) {
@@ -257,8 +255,8 @@ struct Converter<ObjectConstRef> {
 
 template <>
 struct Converter<ObjectRef> {
-  static void toJson(VariantConstRef src, VariantRef dst) {
-    variantCopyFrom(getData(dst), getData(src), getPool(dst));
+  static bool toJson(VariantConstRef src, VariantRef dst) {
+    return variantCopyFrom(getData(dst), getData(src), getPool(dst));
   }
 
   static ObjectRef fromJson(VariantRef src) {
@@ -266,9 +264,6 @@ struct Converter<ObjectRef> {
     MemoryPool* pool = getPool(src);
     return ObjectRef(pool, data != 0 ? data->asObject() : 0);
   }
-
-  static InvalidConversion<VariantConstRef, ObjectRef> fromJson(
-      VariantConstRef);
 
   static bool checkJson(VariantConstRef) {
     return false;

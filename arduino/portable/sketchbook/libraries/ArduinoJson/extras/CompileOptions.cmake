@@ -18,11 +18,16 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
 		-Wparentheses
 		-Wredundant-decls
 		-Wshadow
-		-Wsign-conversion
 		-Wsign-promo
 		-Wstrict-aliasing
 		-Wundef
 	)
+
+	if(NOT MINGW)
+		add_compile_options(
+			-std=c++98
+		)
+	endif()
 
 	if(${COVERAGE})
 		set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
@@ -92,10 +97,4 @@ if(MSVC)
 			/Zc:__cplusplus  # Enable updated __cplusplus macro
 		)
 	endif()
-endif()
-
-if(MINGW)
-  # Static link on MinGW to avoid linking with the wrong DLLs when multiple
-	# versions are installed.
-	add_link_options(-static)
 endif()

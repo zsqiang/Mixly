@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -12,6 +12,7 @@
 
 namespace ARDUINOJSON_NAMESPACE {
 
+//
 enum {
   VALUE_MASK = 0x7F,
 
@@ -49,9 +50,10 @@ union VariantContent {
   UInt asUnsignedInteger;
   Integer asSignedInteger;
   CollectionData asCollection;
+  const char *asString;
   struct {
     const char *data;
     size_t size;
-  } asString;
+  } asRaw;
 };
 }  // namespace ARDUINOJSON_NAMESPACE

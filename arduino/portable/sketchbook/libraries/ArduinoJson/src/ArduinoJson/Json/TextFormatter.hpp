@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -41,22 +41,13 @@ class TextFormatter {
     writeRaw('\"');
   }
 
-  void writeString(const char *value, size_t n) {
-    ARDUINOJSON_ASSERT(value != NULL);
-    writeRaw('\"');
-    while (n--) writeChar(*value++);
-    writeRaw('\"');
-  }
-
   void writeChar(char c) {
     char specialChar = EscapeSequence::escapeChar(c);
     if (specialChar) {
       writeRaw('\\');
       writeRaw(specialChar);
-    } else if (c) {
-      writeRaw(c);
     } else {
-      writeRaw("\\u0000");
+      writeRaw(c);
     }
   }
 
@@ -164,6 +155,7 @@ class TextFormatter {
 
  protected:
   CountingDecorator<TWriter> _writer;
+  size_t _length;
 
  private:
   TextFormatter &operator=(const TextFormatter &);  // cannot be assigned

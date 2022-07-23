@@ -1,88 +1,148 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
-#define ARDUINOJSON_ENABLE_PROGMEM 1
-#define ARDUINOJSON_ENABLE_ARDUINO_STRING 1
-
 #include "custom_string.hpp"
+#include "progmem_emulation.hpp"
 #include "weird_strcmp.hpp"
 
-#include <ArduinoJson/Strings/StringAdapters.hpp>
+#include <ArduinoJson/Strings/ArduinoStringAdapter.hpp>
+#include <ArduinoJson/Strings/ConstRamStringAdapter.hpp>
+#include <ArduinoJson/Strings/FlashStringAdapter.hpp>
+#include <ArduinoJson/Strings/SizedRamStringAdapter.hpp>
+#include <ArduinoJson/Strings/StdStringAdapter.hpp>
 
 #include <catch.hpp>
 
 using namespace ARDUINOJSON_NAMESPACE;
 
-TEST_CASE("ZeroTerminatedRamString") {
+TEST_CASE("ConstRamStringAdapter") {
   SECTION("null") {
-    ZeroTerminatedRamString s = adaptString(static_cast<const char*>(0));
+    ConstRamStringAdapter adapter(NULL);
 
-    CHECK(s.isNull() == true);
-    CHECK(s.size() == 0);
+    CHECK(adapter.compare("bravo") < 0);
+    CHECK(adapter.compare(NULL) == 0);
+
+    CHECK(adapter.equals(NULL));
+    CHECK_FALSE(adapter.equals("charlie"));
+
+    CHECK(adapter.size() == 0);
   }
 
   SECTION("non-null") {
-    ZeroTerminatedRamString s = adaptString("bravo");
+    ConstRamStringAdapter adapter("bravo");
 
-    CHECK(s.isNull() == false);
-    CHECK(s.size() == 5);
+    CHECK(adapter.compare(NULL) > 0);
+    CHECK(adapter.compare("alpha") > 0);
+    CHECK(adapter.compare("bravo") == 0);
+    CHECK(adapter.compare("charlie") < 0);
+
+    CHECK(adapter.equals("bravo"));
+    CHECK_FALSE(adapter.equals("charlie"));
+
+    CHECK(adapter.size() == 5);
   }
 }
 
-TEST_CASE("SizedRamString") {
+TEST_CASE("SizedRamStringAdapter") {
   SECTION("null") {
-    SizedRamString s = adaptString(static_cast<const char*>(0), 10);
+    SizedRamStringAdapter adapter(NULL, 10);
 
-    CHECK(s.isNull() == true);
+    CHECK(adapter.compare("bravo") < 0);
+    CHECK(adapter.compare(NULL) == 0);
+
+    CHECK(adapter.equals(NULL));
+    CHECK_FALSE(adapter.equals("charlie"));
+
+    CHECK(adapter.size() == 10);
   }
 
   SECTION("non-null") {
-    SizedRamString s = adaptString("bravo", 5);
+    SizedRamStringAdapter adapter("bravo", 5);
 
-    CHECK(s.isNull() == false);
-    CHECK(s.size() == 5);
+    CHECK(adapter.compare(NULL) > 0);
+    CHECK(adapter.compare("alpha") > 0);
+    CHECK(adapter.compare("bravo") == 0);
+    CHECK(adapter.compare("charlie") < 0);
+
+    CHECK(adapter.equals("bravo"));
+    CHECK_FALSE(adapter.equals("charlie"));
+
+    CHECK(adapter.size() == 5);
   }
 }
 
-TEST_CASE("FlashString") {
+TEST_CASE("FlashStringAdapter") {
   SECTION("null") {
-    FlashString s = adaptString(static_cast<const __FlashStringHelper*>(0));
+    FlashStringAdapter adapter(NULL);
 
-    CHECK(s.isNull() == true);
-    CHECK(s.size() == 0);
+    CHECK(adapter.compare("bravo") < 0);
+    CHECK(adapter.compare(NULL) == 0);
+
+    CHECK(adapter.equals(NULL));
+    CHECK_FALSE(adapter.equals("charlie"));
+
+    CHECK(adapter.size() == 0);
   }
 
   SECTION("non-null") {
-    FlashString s = adaptString(F("bravo"));
+    FlashStringAdapter adapter = adaptString(F("bravo"));
 
-    CHECK(s.isNull() == false);
-    CHECK(s.size() == 5);
+    CHECK(adapter.compare(NULL) > 0);
+    CHECK(adapter.compare("alpha") > 0);
+    CHECK(adapter.compare("bravo") == 0);
+    CHECK(adapter.compare("charlie") < 0);
+
+    CHECK(adapter.equals("bravo"));
+    CHECK_FALSE(adapter.equals("charlie"));
+
+    CHECK(adapter.size() == 5);
   }
 }
 
 TEST_CASE("std::string") {
-  std::string orig("bravo");
-  SizedRamString s = adaptString(orig);
+  std::string str("bravo");
+  StdStringAdapter<std::string> adapter = adaptString(str);
 
-  CHECK(s.isNull() == false);
-  CHECK(s.size() == 5);
+  CHECK(adapter.compare(NULL) > 0);
+  CHECK(adapter.compare("alpha") > 0);
+  CHECK(adapter.compare("bravo") == 0);
+  CHECK(adapter.compare("charlie") < 0);
+
+  CHECK(adapter.equals("bravo"));
+  CHECK_FALSE(adapter.equals("charlie"));
+
+  CHECK(adapter.size() == 5);
 }
 
 TEST_CASE("Arduino String") {
-  ::String orig("bravo");
-  SizedRamString s = adaptString(orig);
+  ::String str("bravo");
+  ArduinoStringAdapter adapter = adaptString(str);
 
-  CHECK(s.isNull() == false);
-  CHECK(s.size() == 5);
+  CHECK(adapter.compare(NULL) > 0);
+  CHECK(adapter.compare("alpha") > 0);
+  CHECK(adapter.compare("bravo") == 0);
+  CHECK(adapter.compare("charlie") < 0);
+
+  CHECK(adapter.equals("bravo"));
+  CHECK_FALSE(adapter.equals("charlie"));
+
+  CHECK(adapter.size() == 5);
 }
 
 TEST_CASE("custom_string") {
-  custom_string orig("bravo");
-  SizedRamString s = adaptString(orig);
+  custom_string str("bravo");
+  StdStringAdapter<custom_string> adapter = adaptString(str);
 
-  CHECK(s.isNull() == false);
-  CHECK(s.size() == 5);
+  CHECK(adapter.compare(NULL) > 0);
+  CHECK(adapter.compare("alpha") > 0);
+  CHECK(adapter.compare("bravo") == 0);
+  CHECK(adapter.compare("charlie") < 0);
+
+  CHECK(adapter.equals("bravo"));
+  CHECK_FALSE(adapter.equals("charlie"));
+
+  CHECK(adapter.size() == 5);
 }
 
 TEST_CASE("IsString<T>") {
@@ -108,95 +168,5 @@ TEST_CASE("IsString<T>") {
 
   SECTION("const char[]") {
     CHECK(IsString<const char[8]>::value == true);
-  }
-}
-
-TEST_CASE("stringCompare") {
-  SECTION("ZeroTerminatedRamString vs ZeroTerminatedRamString") {
-    CHECK(stringCompare(adaptString("bravo"), adaptString("alpha")) > 0);
-    CHECK(stringCompare(adaptString("bravo"), adaptString("bravo")) == 0);
-    CHECK(stringCompare(adaptString("bravo"), adaptString("charlie")) < 0);
-  }
-
-  SECTION("ZeroTerminatedRamString vs SizedRamString") {
-    CHECK(stringCompare(adaptString("bravo"), adaptString("alpha?", 5)) > 0);
-    CHECK(stringCompare(adaptString("bravo"), adaptString("bravo?", 4)) > 0);
-    CHECK(stringCompare(adaptString("bravo"), adaptString("bravo?", 5)) == 0);
-    CHECK(stringCompare(adaptString("bravo"), adaptString("bravo?", 6)) < 0);
-    CHECK(stringCompare(adaptString("bravo"), adaptString("charlie?", 7)) < 0);
-  }
-
-  SECTION("SizedRamString vs SizedRamString") {
-    // clang-format off
-    CHECK(stringCompare(adaptString("bravo!", 5), adaptString("alpha?", 5)) > 0);
-    CHECK(stringCompare(adaptString("bravo!", 5), adaptString("bravo?", 5)) == 0);
-    CHECK(stringCompare(adaptString("bravo!", 5), adaptString("charlie?", 7)) < 0);
-
-    CHECK(stringCompare(adaptString("bravo!", 5), adaptString("bravo!", 4)) > 0);
-    CHECK(stringCompare(adaptString("bravo!", 5), adaptString("bravo!", 5)) == 0);
-    CHECK(stringCompare(adaptString("bravo!", 5), adaptString("bravo!", 6)) < 0);
-    // clang-format on
-  }
-
-  SECTION("FlashString vs FlashString") {
-    // clang-format off
-    CHECK(stringCompare(adaptString(F("bravo")), adaptString(F("alpha"))) > 0);
-    CHECK(stringCompare(adaptString(F("bravo")), adaptString(F("bravo"))) == 0);
-    CHECK(stringCompare(adaptString(F("bravo")), adaptString(F("charlie"))) < 0);
-    // clang-format on
-  }
-
-  SECTION("FlashString vs SizedRamString") {
-    // clang-format off
-    CHECK(stringCompare(adaptString(F("bravo")), adaptString("alpha?", 5)) > 0);
-    CHECK(stringCompare(adaptString(F("bravo")), adaptString("bravo?", 5)) == 0);
-    CHECK(stringCompare(adaptString(F("bravo")), adaptString("charlie?", 7)) < 0);
-
-    CHECK(stringCompare(adaptString(F("bravo")), adaptString("bravo!", 4)) > 0);
-    CHECK(stringCompare(adaptString(F("bravo")), adaptString("bravo!", 5)) == 0);
-    CHECK(stringCompare(adaptString(F("bravo")), adaptString("bravo!", 6)) < 0);
-    // clang-format on
-  }
-
-  SECTION("ZeroTerminatedRamString vs FlashString") {
-    // clang-format off
-    CHECK(stringCompare(adaptString("bravo"), adaptString(F("alpha?"), 5)) > 0);
-    CHECK(stringCompare(adaptString("bravo"), adaptString(F("bravo?"), 4)) > 0);
-    CHECK(stringCompare(adaptString("bravo"), adaptString(F("bravo?"), 5)) == 0);
-    CHECK(stringCompare(adaptString("bravo"), adaptString(F("bravo?"), 6)) < 0);
-    CHECK(stringCompare(adaptString("bravo"), adaptString(F("charlie?"), 7)) < 0);
-    // clang-format on
-  }
-}
-
-TEST_CASE("stringEquals()") {
-  SECTION("ZeroTerminatedRamString vs ZeroTerminatedRamString") {
-    CHECK(stringEquals(adaptString("bravo"), adaptString("brav")) == false);
-    CHECK(stringEquals(adaptString("bravo"), adaptString("bravo")) == true);
-    CHECK(stringEquals(adaptString("bravo"), adaptString("bravo!")) == false);
-  }
-
-  SECTION("ZeroTerminatedRamString vs SizedRamString") {
-    // clang-format off
-    CHECK(stringEquals(adaptString("bravo"), adaptString("bravo!", 4)) == false);
-    CHECK(stringEquals(adaptString("bravo"), adaptString("bravo!", 5)) == true);
-    CHECK(stringEquals(adaptString("bravo"), adaptString("bravo!", 6)) == false);
-    // clang-format on
-  }
-
-  SECTION("FlashString vs SizedRamString") {
-    // clang-format off
-    CHECK(stringEquals(adaptString(F("bravo")), adaptString("bravo!", 4)) == false);
-    CHECK(stringEquals(adaptString(F("bravo")), adaptString("bravo!", 5)) == true);
-    CHECK(stringEquals(adaptString(F("bravo")), adaptString("bravo!", 6)) == false);
-    // clang-format on
-  }
-
-  SECTION("SizedRamString vs SizedRamString") {
-    // clang-format off
-    CHECK(stringEquals(adaptString("bravo?", 5), adaptString("bravo!", 4)) == false);
-    CHECK(stringEquals(adaptString("bravo?", 5), adaptString("bravo!", 5)) == true);
-    CHECK(stringEquals(adaptString("bravo?", 5), adaptString("bravo!", 6)) == false);
-    // clang-format on
   }
 }

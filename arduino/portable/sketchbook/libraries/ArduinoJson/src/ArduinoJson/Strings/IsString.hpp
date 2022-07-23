@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -7,11 +7,12 @@
 #include <ArduinoJson/Polyfills/type_traits.hpp>
 
 namespace ARDUINOJSON_NAMESPACE {
-
-template <typename T, typename Enable = void>
+template <typename>
 struct IsString : false_type {};
 
-template <typename TChar>
-struct IsString<const TChar*> : IsString<TChar*> {};
+template <typename T>
+struct IsString<const T> : IsString<T> {};
 
+template <typename T>
+struct IsString<T&> : IsString<T> {};
 }  // namespace ARDUINOJSON_NAMESPACE

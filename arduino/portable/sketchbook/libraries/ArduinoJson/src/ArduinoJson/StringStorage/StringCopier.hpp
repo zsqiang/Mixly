@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -15,14 +15,11 @@ class StringCopier {
   void startString() {
     _pool->getFreeZone(&_ptr, &_capacity);
     _size = 0;
-    if (_capacity == 0)
-      _pool->markAsOverflowed();
   }
 
-  String save() {
+  const char* save() {
     ARDUINOJSON_ASSERT(_ptr);
-    ARDUINOJSON_ASSERT(_size < _capacity);  // needs room for the terminator
-    return String(_pool->saveStringFromFreeZone(_size), _size, String::Copied);
+    return _pool->saveStringFromFreeZone(_size);
   }
 
   void append(const char* s) {
@@ -34,35 +31,32 @@ class StringCopier {
   }
 
   void append(char c) {
-    if (_size + 1 < _capacity)
-      _ptr[_size++] = c;
-    else
+    if (!_ptr)
+      return;
+
+    if (_size >= _capacity) {
+      _ptr = 0;
       _pool->markAsOverflowed();
+      return;
+    }
+
+    _ptr[_size++] = c;
   }
 
-  bool isValid() const {
-    return !_pool->overflowed();
+  bool isValid() {
+    return _ptr != 0;
   }
 
-  size_t size() const {
-    return _size;
+  const char* c_str() {
+    return _ptr;
   }
 
-  String str() const {
-    ARDUINOJSON_ASSERT(_ptr);
-    ARDUINOJSON_ASSERT(_size < _capacity);
-    _ptr[_size] = 0;
-    return String(_ptr, _size, String::Copied);
-  }
+  typedef storage_policies::store_by_copy storage_policy;
 
  private:
   MemoryPool* _pool;
-
-  // These fields aren't initialized by the constructor but startString()
-  //
-  // NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.UninitializedObject)
   char* _ptr;
-  // NOLINTNEXTLINE(clang-analyzer-optin.cplusplus.UninitializedObject)
-  size_t _size, _capacity;
+  size_t _size;
+  size_t _capacity;
 };
 }  // namespace ARDUINOJSON_NAMESPACE

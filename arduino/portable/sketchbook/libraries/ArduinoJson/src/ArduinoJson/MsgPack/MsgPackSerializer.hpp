@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -23,11 +23,6 @@ class MsgPackSerializer : public Visitor<size_t> {
 
   template <typename T>
   typename enable_if<sizeof(T) == 4, size_t>::type visitFloat(T value32) {
-    if (canConvertNumber<Integer>(value32)) {
-      Integer truncatedValue = Integer(value32);
-      if (value32 == T(truncatedValue))
-        return visitSignedInteger(truncatedValue);
-    }
     writeByte(0xCA);
     writeInteger(value32);
     return bytesWritten();
@@ -37,10 +32,13 @@ class MsgPackSerializer : public Visitor<size_t> {
   ARDUINOJSON_NO_SANITIZE("float-cast-overflow")
   typename enable_if<sizeof(T) == 8, size_t>::type visitFloat(T value64) {
     float value32 = float(value64);
-    if (value32 == value64)
-      return visitFloat(value32);
-    writeByte(0xCB);
-    writeInteger(value64);
+    if (value32 == value64) {
+      writeByte(0xCA);
+      writeInteger(value32);
+    } else {
+      writeByte(0xCB);
+      writeInteger(value64);
+    }
     return bytesWritten();
   }
 
@@ -80,11 +78,9 @@ class MsgPackSerializer : public Visitor<size_t> {
   }
 
   size_t visitString(const char* value) {
-    return visitString(value, strlen(value));
-  }
-
-  size_t visitString(const char* value, size_t n) {
     ARDUINOJSON_ASSERT(value != NULL);
+
+    size_t n = strlen(value);
 
     if (n < 0x20) {
       writeByte(uint8_t(0xA0 + n));

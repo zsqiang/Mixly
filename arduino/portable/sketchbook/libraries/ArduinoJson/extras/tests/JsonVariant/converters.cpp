@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #include <ArduinoJson.h>
@@ -13,10 +13,11 @@ struct Date {
   int year;
 };
 
-void convertToJson(const Date& src, JsonVariant dst) {
+bool convertToJson(const Date& src, JsonVariant dst) {
   dst["day"] = src.day;
   dst["month"] = src.month;
   dst["year"] = src.year;
+  return true;
 }
 
 void convertFromJson(JsonVariantConst src, Date& dst) {
@@ -91,9 +92,10 @@ class Complex {
 namespace ARDUINOJSON_NAMESPACE {
 template <>
 struct Converter<Complex> {
-  static void toJson(const Complex& src, VariantRef dst) {
+  static bool toJson(const Complex& src, VariantRef dst) {
     dst["real"] = src.real();
     dst["imag"] = src.imag();
+    return true;
   }
 
   static Complex fromJson(VariantConstRef src) {

@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -12,8 +12,8 @@
 #include <ArduinoJson/Variant/VariantTo.hpp>
 
 #ifdef _MSC_VER
-#  pragma warning(push)
-#  pragma warning(disable : 4522)
+#pragma warning(push)
+#pragma warning(disable : 4522)
 #endif
 
 namespace ARDUINOJSON_NAMESPACE {
@@ -92,10 +92,6 @@ class MemberProxy : public VariantOperators<MemberProxy<TObject, TStringRef> >,
 
   FORCE_INLINE size_t size() const {
     return getUpstreamMember().size();
-  }
-
-  FORCE_INLINE size_t memoryUsage() const {
-    return getUpstreamMember().memoryUsage();
   }
 
   FORCE_INLINE void remove(size_t index) const {
@@ -191,8 +187,8 @@ class MemberProxy : public VariantOperators<MemberProxy<TObject, TStringRef> >,
     return _object.getOrAddMember(_key);
   }
 
-  friend void convertToJson(const this_type &src, VariantRef dst) {
-    dst.set(src.getUpstreamMember());
+  friend bool convertToJson(const this_type &src, VariantRef dst) {
+    return dst.set(src.getUpstreamMember());
   }
 
   TObject _object;
@@ -202,5 +198,5 @@ class MemberProxy : public VariantOperators<MemberProxy<TObject, TStringRef> >,
 }  // namespace ARDUINOJSON_NAMESPACE
 
 #ifdef _MSC_VER
-#  pragma warning(pop)
+#pragma warning(pop)
 #endif

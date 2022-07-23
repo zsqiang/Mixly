@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -40,13 +40,12 @@ void objectRemove(CollectionData *obj, TAdaptedString key) {
   obj->removeMember(key);
 }
 
-template <typename TAdaptedString, typename TStoragePolicy>
+template <typename TAdaptedString>
 inline VariantData *objectGetOrAddMember(CollectionData *obj,
-                                         TAdaptedString key, MemoryPool *pool,
-                                         TStoragePolicy storage_policy) {
+                                         TAdaptedString key, MemoryPool *pool) {
   if (!obj)
     return 0;
 
-  return obj->getOrAddMember(key, pool, storage_policy);
+  return obj->getOrAddMember(key, pool);
 }
 }  // namespace ARDUINOJSON_NAMESPACE

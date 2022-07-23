@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -46,7 +46,7 @@ struct Visitor {
     return TResult();
   }
 
-  TResult visitString(const char *, size_t) {
+  TResult visitString(const char *) {
     return TResult();
   }
 };

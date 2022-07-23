@@ -1,5 +1,5 @@
 // ArduinoJson - https://arduinojson.org
-// Copyright © 2014-2022, Benoit BLANCHON
+// Copyright Benoit Blanchon 2014-2021
 // MIT License
 
 #pragma once
@@ -161,20 +161,14 @@ class ArrayRef : public ArrayRefBase<CollectionData>,
     _data->removeElement(index);
   }
 
-  void clear() const {
-    if (!_data)
-      return;
-    _data->clear();
-  }
-
  private:
   MemoryPool* _pool;
 };
 
 template <>
 struct Converter<ArrayConstRef> {
-  static void toJson(VariantConstRef src, VariantRef dst) {
-    variantCopyFrom(getData(dst), getData(src), getPool(dst));
+  static bool toJson(VariantConstRef src, VariantRef dst) {
+    return variantCopyFrom(getData(dst), getData(src), getPool(dst));
   }
 
   static ArrayConstRef fromJson(VariantConstRef src) {
@@ -189,8 +183,8 @@ struct Converter<ArrayConstRef> {
 
 template <>
 struct Converter<ArrayRef> {
-  static void toJson(VariantConstRef src, VariantRef dst) {
-    variantCopyFrom(getData(dst), getData(src), getPool(dst));
+  static bool toJson(VariantConstRef src, VariantRef dst) {
+    return variantCopyFrom(getData(dst), getData(src), getPool(dst));
   }
 
   static ArrayRef fromJson(VariantRef src) {
@@ -198,8 +192,6 @@ struct Converter<ArrayRef> {
     MemoryPool* pool = getPool(src);
     return ArrayRef(pool, data != 0 ? data->asArray() : 0);
   }
-
-  static InvalidConversion<VariantConstRef, ArrayRef> fromJson(VariantConstRef);
 
   static bool checkJson(VariantConstRef) {
     return false;

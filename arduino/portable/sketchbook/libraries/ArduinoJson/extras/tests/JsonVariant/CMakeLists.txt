@@ -1,5 +1,5 @@
 # ArduinoJson - https://arduinojson.org
-# Copyright © 2014-2022, Benoit BLANCHON
+# Copyright Benoit Blanchon 2014-2021
 # MIT License
 
 add_executable(JsonVariantTests
@@ -22,7 +22,7 @@ add_executable(JsonVariantTests
 	set.cpp
 	subscript.cpp
 	types.cpp
-	unbound.cpp
+	undefined.cpp
 )
 
 add_test(JsonVariant JsonVariantTests)
