@@ -1,5 +1,8 @@
 D:\Mixly\mixlyBuild\core\WString.cpp.o: \
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/dev
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\WString.cpp \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\Arduino.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\stdlib_noniso.h \
@@ -48,7 +51,10 @@ D:\Mixly\mixlyBuild\core\WString.cpp.o: \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\debug.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\variants\generic/pins_arduino.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\variants\generic/common.h
+<<<<<<< HEAD
 =======
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\WString.cpp \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\WString.h
+>>>>>>> origin/dev
+=======
 >>>>>>> origin/dev

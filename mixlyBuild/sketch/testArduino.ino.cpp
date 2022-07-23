@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #line 1 "D:\\Mixly\\testArduino\\testArduino.ino"
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 #include <ESP8266WiFi.h>
 #include <U8g2lib.h>
@@ -77,27 +78,22 @@ volatile long updown;
 #line 14 "D:\\Mixly\\testArduino\\testArduino.ino"
 void playmusic();
 #line 23 "D:\\Mixly\\testArduino\\testArduino.ino"
+=======
+#line 1 "D:\\Mixly\\testArduino\\testArduino.ino"
+>>>>>>> origin/dev
 void setup();
-#line 29 "D:\\Mixly\\testArduino\\testArduino.ino"
+#line 5 "D:\\Mixly\\testArduino\\testArduino.ino"
 void loop();
-#line 14 "D:\\Mixly\\testArduino\\testArduino.ino"
-void playmusic() {
-  for (int i = 1; i <= 32; i = i + (1)) {
-    tone(5,(tonelist[(int)(musiclist[(int)(i - 1)] - 1)] * pow(2, highlist[(int)(i - 1)])) * pow(2, (updownlist[(int)(i - 1)] + updown) / 12.0));
-    delay(((1000 * (60 / speed)) * rhythmlist[(int)(i - 1)]));
-    noTone(5);
-    delay(10);
-  }
-}
-
+#line 1 "D:\\Mixly\\testArduino\\testArduino.ino"
 void setup(){
-  speed = 120.0;
-  updown = 0;
-  pinMode(5, OUTPUT);
+
 }
 
 void loop(){
+<<<<<<< HEAD
   playmusic();
+>>>>>>> origin/dev
+=======
 >>>>>>> origin/dev
 
 }

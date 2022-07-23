@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 float tonelist[7]={1046.5,1174.7,1318.5,1396.9,1568,1760,1975.5};
 
 <<<<<<< HEAD
@@ -71,14 +72,17 @@ void playmusic() {
   }
 }
 
+=======
+>>>>>>> origin/dev
 void setup(){
-  speed = 120.0;
-  updown = 0;
-  pinMode(5, OUTPUT);
+
 }
 
 void loop(){
+<<<<<<< HEAD
   playmusic();
+>>>>>>> origin/dev
+=======
 >>>>>>> origin/dev
 
 }

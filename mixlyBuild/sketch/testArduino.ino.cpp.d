@@ -1,6 +1,9 @@
 D:\Mixly\mixlyBuild\sketch\testArduino.ino.cpp.o: \
  D:\Mixly\mixlyBuild\sketch\testArduino.ino.cpp \
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/dev
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266/Arduino.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266/stdlib_noniso.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266/binary.h \
@@ -45,6 +48,7 @@ D:\Mixly\mixlyBuild\sketch\testArduino.ino.cpp.o: \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266/md5.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266/debug.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\variants\generic/pins_arduino.h \
+<<<<<<< HEAD
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\variants\generic/common.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\libraries\ESP8266WiFi\src/ESP8266WiFi.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266/wl_definitions.h \
@@ -150,4 +154,7 @@ D:\Mixly\mixlyBuild\sketch\testArduino.ino.cpp.o: \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/USBAPI.h \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino/Arduino.h \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\variants\standard/pins_arduino.h
+>>>>>>> origin/dev
+=======
+ D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\variants\generic/common.h
 >>>>>>> origin/dev

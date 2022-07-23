@@ -1,5 +1,8 @@
 D:\Mixly\mixlyBuild\core\Tone.cpp.o: \
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/dev
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\Tone.cpp \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\Arduino.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\stdlib_noniso.h \
@@ -76,6 +79,7 @@ D:\Mixly\mixlyBuild\core\Tone.cpp.o: \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2/tools/sdk/include/queue.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2/tools/sdk/include/spi_flash.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2/tools/sdk/include/gpio.h
+<<<<<<< HEAD
 =======
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\Tone.cpp \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\Arduino.h \
@@ -88,4 +92,6 @@ D:\Mixly\mixlyBuild\core\Tone.cpp.o: \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\Printable.h \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\USBAPI.h \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\variants\standard/pins_arduino.h
+>>>>>>> origin/dev
+=======
 >>>>>>> origin/dev

@@ -1,5 +1,6 @@
 # 1 "D:\\Mixly\\testArduino\\testArduino.ino"
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 # 3 "D:\\Mixly\\testArduino\\testArduino.ino" 2
 # 4 "D:\\Mixly\\testArduino\\testArduino.ino" 2
@@ -73,14 +74,17 @@ void playmusic() {
   }
 }
 
+=======
+>>>>>>> origin/dev
 void setup(){
-  speed = 120.0;
-  updown = 0;
-  pinMode(5, 0x1);
+
 }
 
 void loop(){
+<<<<<<< HEAD
   playmusic();
+>>>>>>> origin/dev
+=======
 >>>>>>> origin/dev
 
 }

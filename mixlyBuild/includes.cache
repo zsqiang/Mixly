@@ -3,14 +3,19 @@
     "Sourcefile": null,
     "Include": "",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "Includepath": "D:\\Mixly\\arduino\\portable\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\cores\\esp8266"
 =======
     "Includepath": "D:\\Mixly\\arduino\\portable\\packages\\arduino\\hardware\\avr\\1.8.1\\cores\\arduino"
+>>>>>>> origin/dev
+=======
+    "Includepath": "D:\\Mixly\\arduino\\portable\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\cores\\esp8266"
 >>>>>>> origin/dev
   },
   {
     "Sourcefile": null,
     "Include": "",
+<<<<<<< HEAD
 <<<<<<< HEAD
     "Includepath": "D:\\Mixly\\arduino\\portable\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\variants\\generic"
   },
@@ -43,6 +48,9 @@
     "Sourcefile": "D:\\Mixly\\mixlyBuild\\sketch\\testArduino.ino.cpp",
     "Include": "SimpleTimer.h",
     "Includepath": "D:\\Mixly\\arduino\\portable\\sketchbook\\libraries\\SimpleTimer"
+=======
+    "Includepath": "D:\\Mixly\\arduino\\portable\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\variants\\generic"
+>>>>>>> origin/dev
   },
   {
     "Sourcefile": "D:\\Mixly\\mixlyBuild\\sketch\\testArduino.ino.cpp",

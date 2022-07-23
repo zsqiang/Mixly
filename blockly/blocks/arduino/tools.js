@@ -298,3 +298,32 @@ Blockly.Blocks['get_the_number_of_days_between_the_two_dates'] = {
   }
 };
 
+var esp8266_board_pin = [
+  ["D0", "16"],
+  ["D1", "5"],
+  ["D2", "4"],
+  ["D3", "0"],
+  ["D4", "2"],
+  ["D5", "14"],
+  ["D6", "12"],
+  ["D7", "13"],
+  ["D8", "15"],
+  ["RX", "3"],
+  ["TX", "1"],
+  ["A0", "A0"],
+  ["SD3", "10"],
+  ["SD2", "9"]
+  ];
+  
+  Blockly.Blocks['esp8266_board_pin'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("ESP8266 GPIO")
+          .appendField(new Blockly.FieldDropdown(esp8266_board_pin), "pin");
+      this.setOutput(true, null);
+      this.setColour(Blockly.Blocks.tools.HUE);
+   this.setTooltip("");
+   this.setHelpUrl("");
+    }
+  }; 
+  

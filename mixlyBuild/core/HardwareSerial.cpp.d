@@ -1,5 +1,8 @@
 D:\Mixly\mixlyBuild\core\HardwareSerial.cpp.o: \
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/dev
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\HardwareSerial.cpp \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266/PolledTimeout.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2/tools/sdk/include/c_types.h \
@@ -48,6 +51,7 @@ D:\Mixly\mixlyBuild\core\HardwareSerial.cpp.o: \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\debug.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\variants\generic/pins_arduino.h \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\variants\generic/common.h
+<<<<<<< HEAD
 =======
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\HardwareSerial.cpp \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\Arduino.h \
@@ -62,4 +66,6 @@ D:\Mixly\mixlyBuild\core\HardwareSerial.cpp.o: \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\variants\standard/pins_arduino.h \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\HardwareSerial_private.h \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\wiring_private.h
+>>>>>>> origin/dev
+=======
 >>>>>>> origin/dev
