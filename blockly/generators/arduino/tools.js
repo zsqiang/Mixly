@@ -660,3 +660,9 @@ Blockly.Arduino.get_the_number_of_days_between_the_two_dates = function() {
     var code='day_diff('+year_start+', '+month_start+', '+day_start+', '+year_end+', '+month_end+', '+day_end+')';
     return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
+
+Blockly.Arduino.esp8266_board_pin = function() {
+  var pin= this.getFieldValue('pin');
+  var code = '' +pin+ '';
+  return [code, Blockly.Arduino.ORDER_ATOMIC];
+};

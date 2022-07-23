@@ -2,12 +2,12 @@
   {
     "Sourcefile": null,
     "Include": "",
-    "Includepath": "D:\\Mixly\\arduino\\portable\\packages\\arduino\\hardware\\avr\\1.8.1\\cores\\arduino"
+    "Includepath": "D:\\Mixly\\arduino\\portable\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\cores\\esp8266"
   },
   {
     "Sourcefile": null,
     "Include": "",
-    "Includepath": "D:\\Mixly\\arduino\\portable\\packages\\arduino\\hardware\\avr\\1.8.1\\variants\\standard"
+    "Includepath": "D:\\Mixly\\arduino\\portable\\packages\\esp8266\\hardware\\esp8266\\3.0.2\\variants\\generic"
   },
   {
     "Sourcefile": "D:\\Mixly\\mixlyBuild\\sketch\\testArduino.ino.cpp",
