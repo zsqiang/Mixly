@@ -1,6 +1,7 @@
 D:\Mixly\mixlyBuild\core\abi.cpp.o: \
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> origin/dev
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\abi.cpp \
@@ -55,3 +56,6 @@ D:\Mixly\mixlyBuild\core\abi.cpp.o: \
 >>>>>>> origin/dev
 =======
 >>>>>>> origin/dev
+=======
+ D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\abi.cpp
+>>>>>>> 1cdc1db6f03a4ca09e6fd2264c0d310419f0eb33

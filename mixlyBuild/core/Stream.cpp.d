@@ -1,6 +1,7 @@
 D:\Mixly\mixlyBuild\core\Stream.cpp.o: \
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> origin/dev
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\cores\esp8266\Stream.cpp \
@@ -51,6 +52,8 @@ D:\Mixly\mixlyBuild\core\Stream.cpp.o: \
  D:\Mixly\arduino\portable\packages\esp8266\hardware\esp8266\3.0.2\variants\generic/common.h
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> 1cdc1db6f03a4ca09e6fd2264c0d310419f0eb33
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\Stream.cpp \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\Arduino.h \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\binary.h \
@@ -62,6 +65,9 @@ D:\Mixly\mixlyBuild\core\Stream.cpp.o: \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\Printable.h \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\cores\arduino\USBAPI.h \
  D:\Mixly\arduino\portable\packages\arduino\hardware\avr\1.8.1\variants\standard/pins_arduino.h
+<<<<<<< HEAD
 >>>>>>> origin/dev
 =======
 >>>>>>> origin/dev
+=======
+>>>>>>> 1cdc1db6f03a4ca09e6fd2264c0d310419f0eb33
