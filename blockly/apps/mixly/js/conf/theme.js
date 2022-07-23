@@ -1,2 +1,2 @@
 var conf = conf || {};
-conf.lastEditorTheme = 'ace/theme/xcode';
+conf.lastEditorTheme = 'ace/theme/chrome';
